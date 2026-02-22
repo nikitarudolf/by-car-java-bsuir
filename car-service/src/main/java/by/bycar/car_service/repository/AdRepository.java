@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -19,12 +20,12 @@ public class AdRepository {
     }
 
     public List<Advertisement> findAll() {
-        return new ArrayList<>(ads); // Возвращаем копию списка
+        return new ArrayList<>(ads);
     }
 
     public Optional<Advertisement> findById(Long id) {
         return ads.stream()
-                .filter(ad -> ad.getId() == id)
+                .filter(ad -> Objects.equals(ad.getId(), id))
                 .findFirst();
     }
 
@@ -34,6 +35,6 @@ public class AdRepository {
     }
 
     public void deleteById(Long id) {
-        ads.removeIf(ad -> ad.getId() == id);
+        ads.removeIf(ad -> Objects.equals(ad.getId(), id));
     }
 }

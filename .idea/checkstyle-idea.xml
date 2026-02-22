@@ -6,7 +6,7 @@
     <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
-      <option value="bundled-google-checks" />
+      <option value="2dd41dc5-2c05-4a7a-8340-4bc09c15f45a" />
     </option>
     <option name="locations">
       <list>
@@ -21,6 +21,7 @@
             </map>
           </option>
         </ConfigurationLocation>
+        <ConfigurationLocation id="2dd41dc5-2c05-4a7a-8340-4bc09c15f45a" type="LOCAL_FILE" scope="All" description="checkstyle">$PROJECT_DIR$/car-service/config/checkstyle.xml</ConfigurationLocation>
       </list>
     </option>
   </component>

@@ -7,7 +7,6 @@ import by.bycar.car_service.repository.AdRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdService {
@@ -20,14 +19,12 @@ public class AdService {
         this.adMapper = adMapper;
     }
 
-    // Возвращаем список DTO
     public List<AdDTO> getAllAds() {
         return adRepository.findAll().stream()
                 .map(adMapper::toDTO) // Превращаем каждое объявление в DTO
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    // Возвращаем один DTO
     public AdDTO getAdById(Long id) {
         return adRepository.findById(id)
                 .map(adMapper::toDTO)
@@ -38,10 +35,9 @@ public class AdService {
         return adRepository.findAll().stream()
                 .filter(ad -> ad.getBrand().equalsIgnoreCase(brand))
                 .map(adMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    // Принимаем DTO от контроллера, сохраняем Entity
     public AdDTO createAd(AdDTO adDTO) {
         Advertisement adEntity = adMapper.toEntity(adDTO);
         Advertisement savedAd = adRepository.save(adEntity);
