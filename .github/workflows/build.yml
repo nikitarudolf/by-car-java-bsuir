@@ -44,4 +44,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         # Добавлены флаги пропуска тестов и стиля, чтобы анализ завершился успешно
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nikitarudolf_by-car-java-bsuir Dsonar.branch.name=main -Dcheckstyle.skip -DskipTests
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nikitarudolf_by-car-java-bsuir -Dsonar.branch.name=main -DskipTests -Dcheckstyle.skip
