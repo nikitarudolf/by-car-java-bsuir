@@ -22,7 +22,7 @@ public class AdController {
         this.adService = adService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public AdDTO getById(@PathVariable Long id) {
         return adService.getAdById(id);
     }
