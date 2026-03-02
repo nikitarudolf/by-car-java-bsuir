@@ -10,7 +10,6 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
 
-    # ЭТО КЛЮЧЕВОЙ МОМЕНТ: заставляем GitHub заходить в папку с проектом
     defaults:
       run:
         working-directory: car-service
@@ -43,5 +42,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # Добавлены флаги пропуска тестов и стиля, чтобы анализ завершился успешно
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nikitarudolf_by-car-java-bsuir -Dsonar.branch.name=main -DskipTests -Dcheckstyle.skip
