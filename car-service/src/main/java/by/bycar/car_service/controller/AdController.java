@@ -1,49 +1,42 @@
 package by.bycar.car_service.controller;
 
-import by.bycar.car_service.dto.AdDTO;
-import by.bycar.car_service.service.AdService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import by.bycar.car_service.dto.create.AdvertisementCreateDTO;
+import by.bycar.car_service.dto.response.AdvertisementResponseDTO;
+import by.bycar.car_service.service.AdvertisementService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/ads")
+@RequiredArgsConstructor
 public class AdController {
-    private final AdService adService;
-
-    public AdController(AdService adService) {
-        this.adService = adService;
-    }
+    private final AdvertisementService advertisementService;
 
     @GetMapping("/{id:\\d+}")
-    public AdDTO getById(@PathVariable Long id) {
-        return adService.getAdById(id);
+    public AdvertisementResponseDTO findById(@PathVariable Long id) {
+        return advertisementService.findById(id);
     }
 
     @PostMapping
-    public AdDTO createAd(@RequestBody AdDTO ad) {
-        return adService.createAd(ad);
+    public AdvertisementResponseDTO createAd(@RequestBody AdvertisementCreateDTO ad) {
+        return advertisementService.create(ad);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAd(@PathVariable Long id) {
-        adService.deleteAd(id);
+        advertisementService.deleteAd(id);
     }
 
     @GetMapping
-    public List<AdDTO> getAllAds() {
-        return adService.getAllAds();
+    public List<AdvertisementResponseDTO> findAll() {
+        return advertisementService.findAll();
     }
 
-    @GetMapping("/search")
-    public List<AdDTO> searchByBrand(@RequestParam String brand) {
-        return adService.getAdsByBrand(brand);
+    @GetMapping("/find")
+    public List<AdvertisementResponseDTO> findByYear(@RequestParam("year") Integer year) {
+        return advertisementService.findByYear(year);
     }
 }
