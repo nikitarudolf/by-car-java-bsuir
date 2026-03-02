@@ -2,7 +2,6 @@ package by.bycar.car_service.mapper;
 
 import by.bycar.car_service.dto.create.UserCreateDTO;
 import by.bycar.car_service.dto.response.UserResponseDTO;
-import by.bycar.car_service.model.Advertisement;
 import by.bycar.car_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class UserMapper {
         return User.builder()
                 .name(userCreateDTO.name())
                 .phone(userCreateDTO.phone())
-                .ads(new LinkedList<Advertisement>())
+                .ads(new LinkedList<>())
                 .build();
     }
 
