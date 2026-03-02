@@ -23,4 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-.idea
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+gen/
