@@ -23,7 +23,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteByid(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         carService.deleteById(id);
     }
 }
