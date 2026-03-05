@@ -26,7 +26,7 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         brandService.deleteById(id);
     }
 
