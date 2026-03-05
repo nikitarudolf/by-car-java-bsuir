@@ -34,8 +34,8 @@ public class AdController {
         return advertisementService.create(ad);
     }
 
-    @PostMapping ("/createbad")
-    public AdvertisementResponseDTO createAdBad(@RequestBody AdvertisementCreateDTO ad) {
+    @PostMapping ("/createnotx")
+    public AdvertisementResponseDTO createAdNoTX(@RequestBody AdvertisementCreateDTO ad) {
         return advertisementService.createNoTX(ad);
     }
 
