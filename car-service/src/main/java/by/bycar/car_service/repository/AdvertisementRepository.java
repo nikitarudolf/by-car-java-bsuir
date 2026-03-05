@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 
-    @EntityGraph(attributePaths = {"user", "car", "car.model"})
+    @EntityGraph(attributePaths = {"user", "car", "car.model", "car.features", "car.model.brand"})
     List<Advertisement> findAll();
+
+    @Query("SELECT a FROM Advertisement a")
+    List<Advertisement> findAllBad();
 
     @Query("SELECT a FROM Advertisement a JOIN FETCH a.user JOIN FETCH a.car")
     List<Advertisement> findAllWithFetch();

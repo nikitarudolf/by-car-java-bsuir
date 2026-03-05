@@ -2,10 +2,12 @@ package by.bycar.car_service.controller;
 
 import by.bycar.car_service.dto.create.AdvertisementCreateDTO;
 import by.bycar.car_service.dto.response.AdvertisementResponseDTO;
+import by.bycar.car_service.dto.update.AdvertisementUpdateDTO;
 import by.bycar.car_service.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,9 +34,24 @@ public class AdController {
         return advertisementService.create(ad);
     }
 
+    @PostMapping ("/createbad")
+    public AdvertisementResponseDTO createAdBad(@RequestBody AdvertisementCreateDTO ad) {
+        return advertisementService.createNoTX(ad);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteAd(@PathVariable Long id) {
         advertisementService.deleteAd(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void editAd(@RequestBody AdvertisementUpdateDTO ad, @PathVariable Long id) {
+        advertisementService.update(ad, id);
+    }
+
+    @GetMapping("/badfind")
+    public List<AdvertisementResponseDTO> findAllBad() {
+        return advertisementService.findAllBad();
     }
 
     @GetMapping

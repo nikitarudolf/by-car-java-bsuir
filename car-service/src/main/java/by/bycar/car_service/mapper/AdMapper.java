@@ -2,6 +2,8 @@ package by.bycar.car_service.mapper;
 
 import by.bycar.car_service.dto.create.AdvertisementCreateDTO;
 import by.bycar.car_service.dto.response.AdvertisementResponseDTO;
+import by.bycar.car_service.dto.update.AdvertisementUpdateDTO;
+import by.bycar.car_service.exception.TestException;
 import by.bycar.car_service.model.Advertisement;
 import by.bycar.car_service.model.Car;
 import by.bycar.car_service.repository.FeatureRepository;
@@ -35,6 +37,23 @@ public class AdMapper {
                         .build())
                 .price(advertisementCreateDTO.price())
                 .build();
+    }
+
+    public void toEntity(Advertisement advertisement, AdvertisementUpdateDTO advertisementUpdateDTO) {
+        advertisement.setPrice(advertisementUpdateDTO.price());
+        advertisement.setDescription(advertisement.getDescription());
+        advertisement
+                .getCar()
+                .setModel(modelRepository
+                        .findById(advertisementUpdateDTO
+                                .modelId())
+                        .orElseThrow(() -> new TestException("s")));
+        advertisement.getCar().setYear(advertisementUpdateDTO.year());
+        advertisement.getCar().setMileage(advertisementUpdateDTO.mileage());
+        advertisement.getCar().setVin(advertisementUpdateDTO.vin());
+        advertisement.getCar().setFeatures(new HashSet<>(featureRepository
+                .findAllById(advertisementUpdateDTO
+                        .featureIds())));
     }
 
     public AdvertisementResponseDTO toDTO(Advertisement advertisement) {
