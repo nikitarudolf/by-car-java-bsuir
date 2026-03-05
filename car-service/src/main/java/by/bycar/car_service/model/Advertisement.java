@@ -33,7 +33,7 @@ public class Advertisement {
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "car_id", unique = true)
     private Car car;
 
 }
