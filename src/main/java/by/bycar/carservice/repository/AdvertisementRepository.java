@@ -21,7 +21,9 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
             + "JOIN c.model m " + "JOIN m.brand b " + "WHERE b.name = :brandName AND a.price <= :maxPrice ")
     Page<Advertisement> findAllByBrandAndPriceJPQL(String brandName, Double maxPrice, Pageable pageable);
 
-    @Query(value = "SELECT a.* FROM advertisement a " + "JOIN cars c ON a.car_id = c.id " + "JOIN models m ON c.model_id = m.id " + "JOIN brands b ON m.brand_id = b.id " + "WHERE b.name = :brandName AND a.price <= :maxPrice",
+    @Query(value = "SELECT a.* FROM advertisement a " + "JOIN cars c ON a.car_id = c.id "
+            + "JOIN models m ON c.model_id = m.id " + "JOIN brands b ON m.brand_id = b.id "
+            + "WHERE b.name = :brandName AND a.price <= :maxPrice",
             nativeQuery = true)
     Page<Advertisement> findByBrandAndPriceNative(String brandName, Double maxPrice, Pageable pageable);
 
