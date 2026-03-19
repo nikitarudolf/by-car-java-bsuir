@@ -17,8 +17,13 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     @EntityGraph(attributePaths = {"user", "car", "car.model", "car.features", "car.model.brand"})
     List<Advertisement> findAll();
 
-    @Query("SELECT a FROM Advertisement a " + "JOIN a.car c "
-            + "JOIN c.model m " + "JOIN m.brand b " + "WHERE b.name = :brandName AND a.price <= :maxPrice ")
+    @Query("SELECT a FROM Advertisement a "
+            + "JOIN FETCH a.user u "
+            + "JOIN FETCH a.car c "
+            + "JOIN FETCH c.model m "
+            + "JOIN FETCH m.brand b "
+            + "LEFT JOIN FETCH c.features f "
+            + "WHERE b.name = :brandName AND a.price <= :maxPrice")
     Page<Advertisement> findAllByBrandAndPriceJPQL(String brandName, Double maxPrice, Pageable pageable);
 
     @Query(value = "SELECT a.* FROM advertisement a " + "JOIN cars c ON a.car_id = c.id "
