@@ -100,5 +100,6 @@ public class AdvertisementService {
     @Transactional
     public void deleteAd(Long id) {
         advertisementRepository.deleteById(id);
+        advertisementIndex.clear();
     }
 }
