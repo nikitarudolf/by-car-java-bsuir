@@ -2,6 +2,8 @@ package by.bycar.carservice.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.Set;
@@ -18,9 +20,12 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @DecimalMin("1000")
     private Integer year;
+    @DecimalMin("1")
     private Integer mileage;
     @Column(name = "vin", length = 17)
+    @NotBlank
     private String vin;
 
     @ManyToOne(fetch = FetchType.LAZY)

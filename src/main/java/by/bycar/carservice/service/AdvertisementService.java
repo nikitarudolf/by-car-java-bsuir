@@ -4,7 +4,7 @@ import by.bycar.carservice.cache.AdvertisementIndex;
 import by.bycar.carservice.dto.create.AdvertisementCreateDTO;
 import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
 import by.bycar.carservice.dto.update.AdvertisementUpdateDTO;
-import by.bycar.carservice.exception.TestException;
+import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.mapper.AdMapper;
 import by.bycar.carservice.model.Advertisement;
 import by.bycar.carservice.repository.AdvertisementRepository;
@@ -16,9 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -73,7 +71,7 @@ public class AdvertisementService {
     public AdvertisementResponseDTO update(AdvertisementUpdateDTO advertisementUpdateDTO, Long id) {
         Advertisement advertisement = advertisementRepository
                 .findById(id)
-                .orElseThrow(() -> new TestException("Not found"));
+                .orElseThrow(() -> new CarServiceException("Not found"));
         adMapper.toEntity(advertisement, advertisementUpdateDTO);
         Advertisement savedAd = advertisementRepository.save(advertisement);
         return adMapper.toDTO(savedAd);

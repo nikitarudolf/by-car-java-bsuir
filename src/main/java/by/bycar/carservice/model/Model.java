@@ -1,6 +1,7 @@
 package by.bycar.carservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name", length = 50)
+    @NotBlank
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

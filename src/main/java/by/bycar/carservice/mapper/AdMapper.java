@@ -3,7 +3,7 @@ package by.bycar.carservice.mapper;
 import by.bycar.carservice.dto.create.AdvertisementCreateDTO;
 import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
 import by.bycar.carservice.dto.update.AdvertisementUpdateDTO;
-import by.bycar.carservice.exception.TestException;
+import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.model.Advertisement;
 import by.bycar.carservice.model.Car;
 import by.bycar.carservice.repository.FeatureRepository;
@@ -47,7 +47,7 @@ public class AdMapper {
                 .setModel(modelRepository
                         .findById(advertisementUpdateDTO
                                 .modelId())
-                        .orElseThrow(() -> new TestException("s")));
+                        .orElseThrow(() -> new CarServiceException("s")));
         advertisement.getCar().setYear(advertisementUpdateDTO.year());
         advertisement.getCar().setMileage(advertisementUpdateDTO.mileage());
         advertisement.getCar().setVin(advertisementUpdateDTO.vin());
