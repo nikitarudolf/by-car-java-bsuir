@@ -2,26 +2,19 @@ package by.bycar.carservice.mapper;
 
 import by.bycar.carservice.dto.create.BrandCreateDTO;
 import by.bycar.carservice.dto.response.BrandResponseDTO;
+import by.bycar.carservice.dto.update.BrandUpdateDTO;
 import by.bycar.carservice.model.Brand;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-
 @Component
-@RequiredArgsConstructor
-public class BrandMapper {
-    public Brand toEntity(BrandCreateDTO brandCreateDTO) {
-        return Brand.builder()
-                .name(brandCreateDTO.name())
-                .model(new HashSet<>())
-                .build();
-    }
+@Mapper(componentModel = "spring")
+public interface BrandMapper {
 
-    public BrandResponseDTO toDTO(Brand brand) {
-        return BrandResponseDTO.builder()
-                .id(brand.getId())
-                .name(brand.getName())
-                .build();
-    }
+    BrandResponseDTO toResponseDTO(Brand brand);
+
+    Brand toEntity(BrandCreateDTO dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDto(BrandUpdateDTO dto, @MappingTarget Brand brand);
 }

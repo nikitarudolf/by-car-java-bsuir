@@ -2,7 +2,7 @@ package by.bycar.carservice.dto.response;
 
 import lombok.Builder;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 public record CarResponseDTO(
@@ -11,5 +11,5 @@ public record CarResponseDTO(
         Integer mileage,
         String vin,
         ModelResponseDTO model,
-        List<FeatureResponseDTO> features) {
+        Set<FeatureResponseDTO> features) {
 }

@@ -4,6 +4,7 @@ package by.bycar.carservice.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -30,6 +31,7 @@ public class Car {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
+    @NotNull
     private Model model;
 
     @ManyToMany(fetch = FetchType.LAZY)

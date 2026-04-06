@@ -2,34 +2,19 @@ package by.bycar.carservice.mapper;
 
 import by.bycar.carservice.dto.create.UserCreateDTO;
 import by.bycar.carservice.dto.response.UserResponseDTO;
+import by.bycar.carservice.dto.update.UserUpdateDTO;
 import by.bycar.carservice.model.User;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
-
 @Component
-@RequiredArgsConstructor
-public class UserMapper {
-    private final AdMapper adMapper;
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    public User toEntity(UserCreateDTO userCreateDTO) {
-        return User.builder()
-                .name(userCreateDTO.name())
-                .phone(userCreateDTO.phone())
-                .ads(new LinkedList<>())
-                .build();
-    }
+    UserResponseDTO toResponseDTO(User user);
 
-    public UserResponseDTO toDTO(User user) {
-        return UserResponseDTO.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .phone(user.getPhone())
-                .ads(user.getAds()
-                        .stream()
-                        .map(adMapper::toDTO)
-                        .toList())
-                .build();
-    }
+    User toEntity(UserCreateDTO dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDto(UserUpdateDTO dto, @MappingTarget User user);
 }

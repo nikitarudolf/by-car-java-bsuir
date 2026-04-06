@@ -1,7 +1,9 @@
 package by.bycar.carservice.controller;
 
 import by.bycar.carservice.dto.response.CarResponseDTO;
+import by.bycar.carservice.dto.update.CarUpdateDTO;
 import by.bycar.carservice.service.CarService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,5 +23,10 @@ public class CarController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         carService.deleteById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public CarResponseDTO update(@PathVariable Long id, @RequestBody @Valid CarUpdateDTO carUpdateDTO) {
+        return carService.update(id, carUpdateDTO);
     }
 }

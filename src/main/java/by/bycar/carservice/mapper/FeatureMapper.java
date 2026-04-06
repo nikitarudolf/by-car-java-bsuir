@@ -2,26 +2,19 @@ package by.bycar.carservice.mapper;
 
 import by.bycar.carservice.dto.create.FeatureCreateDTO;
 import by.bycar.carservice.dto.response.FeatureResponseDTO;
+import by.bycar.carservice.dto.update.FeatureUpdateDTO;
 import by.bycar.carservice.model.Feature;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-
 @Component
-@RequiredArgsConstructor
-public class FeatureMapper {
-    public Feature toEntity(FeatureCreateDTO featureCreateDTO) {
-        return Feature.builder()
-                .name(featureCreateDTO.name())
-                .cars(new HashSet<>())
-                .build();
-    }
+@Mapper(componentModel = "spring")
+public interface FeatureMapper {
 
-    public FeatureResponseDTO toDTO(Feature feature) {
-        return FeatureResponseDTO.builder()
-                .id(feature.getId())
-                .name(feature.getName())
-                .build();
-    }
+    FeatureResponseDTO toResponseDTO(Feature feature);
+
+    Feature toEntity(FeatureCreateDTO dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDto(FeatureUpdateDTO dto, @MappingTarget Feature feature);
 }

@@ -1,26 +1,21 @@
 package by.bycar.carservice.mapper;
 
 import by.bycar.carservice.dto.response.CarResponseDTO;
+import by.bycar.carservice.dto.update.CarUpdateDTO;
 import by.bycar.carservice.model.Car;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 
 @Component
-@RequiredArgsConstructor
-public class CarMapper {
-    private final ModelMapper modelMapper;
-    private final FeatureMapper featureMapper;
+@Mapper(componentModel = "spring", uses = {ModelMapper.class, FeatureMapper.class})
+public interface CarMapper {
 
-    public CarResponseDTO toDTO(Car car) {
-        return CarResponseDTO.builder()
-                .id(car.getId())
-                .year(car.getYear())
-                .mileage(car.getMileage())
-                .vin(car.getVin())
-                .model(modelMapper.toDTO(car.getModel()))
-                .features(car.getFeatures().stream()
-                        .map(featureMapper::toDTO)
-                        .toList()).build();
-    }
+    @Mapping(source = "model", target = "model")
+    @Mapping(source = "features", target = "features")
+    CarResponseDTO toResponseDTO(Car car);
+
+    @Mapping(target = "model", ignore = true)
+    @Mapping(target = "features", ignore = true)
+    void updateEntityFromDto(CarUpdateDTO dto, @MappingTarget Car entity);
 }

@@ -4,6 +4,7 @@ import by.bycar.carservice.dto.create.AdvertisementCreateDTO;
 import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
 import by.bycar.carservice.dto.update.AdvertisementUpdateDTO;
 import by.bycar.carservice.service.AdvertisementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class AdController {
     }
 
     @PostMapping
-    public AdvertisementResponseDTO createAd(@RequestBody AdvertisementCreateDTO ad) {
+    public AdvertisementResponseDTO createAd(@Valid @RequestBody AdvertisementCreateDTO ad) {
         return advertisementService.create(ad);
     }
 
@@ -44,7 +45,7 @@ public class AdController {
 
     @PatchMapping("/{id}")
     public void editAd(@RequestBody AdvertisementUpdateDTO ad, @PathVariable Long id) {
-        advertisementService.update(ad, id);
+        advertisementService.update(id, ad);
     }
 
     @GetMapping

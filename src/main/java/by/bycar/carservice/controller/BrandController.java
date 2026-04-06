@@ -2,15 +2,11 @@ package by.bycar.carservice.controller;
 
 import by.bycar.carservice.dto.create.BrandCreateDTO;
 import by.bycar.carservice.dto.response.BrandResponseDTO;
+import by.bycar.carservice.dto.update.BrandUpdateDTO;
 import by.bycar.carservice.service.BrandService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +17,13 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping
-    public BrandResponseDTO create(@RequestBody BrandCreateDTO brandCreateDTO) {
+    public BrandResponseDTO create(@RequestBody @Valid BrandCreateDTO brandCreateDTO) {
         return brandService.create(brandCreateDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public BrandResponseDTO update(@PathVariable Long id, @RequestBody @Valid BrandUpdateDTO brandUpdateDTO) {
+        return brandService.update(id, brandUpdateDTO);
     }
 
     @DeleteMapping("/{id}")

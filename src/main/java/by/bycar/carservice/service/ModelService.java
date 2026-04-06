@@ -2,8 +2,12 @@ package by.bycar.carservice.service;
 
 import by.bycar.carservice.dto.create.ModelCreateDTO;
 import by.bycar.carservice.dto.response.ModelResponseDTO;
+import by.bycar.carservice.dto.update.ModelUpdateDTO;
+import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.mapper.ModelMapper;
+import by.bycar.carservice.model.Brand;
 import by.bycar.carservice.model.Model;
+import by.bycar.carservice.repository.BrandRepository;
 import by.bycar.carservice.repository.ModelRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +19,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ModelService {
     private final ModelRepository modelRepository;
+    private final BrandRepository brandRepository;
     private final ModelMapper modelMapper;
 
     @Transactional
     public ModelResponseDTO create(ModelCreateDTO modelCreateDTO) {
         Model model = modelMapper.toEntity(modelCreateDTO);
         Model savedModel = modelRepository.save(model);
-        return modelMapper.toDTO(savedModel);
+        return modelMapper.toResponseDTO(savedModel);
     }
 
     public List<ModelResponseDTO> findAll() {
         return modelRepository.findAll()
                 .stream()
-                .map(modelMapper::toDTO)
+                .map(modelMapper::toResponseDTO)
                 .toList();
+    }
+
+    @Transactional
+    public ModelResponseDTO update(Long id, ModelUpdateDTO dto) {
+        Model model = modelRepository.findById(id)
+                .orElseThrow(() -> new CarServiceException("Модель с id " + id + " не найдена"));
+
+        modelMapper.updateEntityFromDto(dto, model);
+
+        if (dto.brandId() != null) {
+            Brand brand = brandRepository.findById(dto.brandId())
+                    .orElseThrow(() -> new CarServiceException("Бренд не найден"));
+            model.setBrand(brand);
+        }
+
+        return modelMapper.toResponseDTO(modelRepository.save(model));
     }
 
     @Transactional

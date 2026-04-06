@@ -2,6 +2,8 @@ package by.bycar.carservice.service;
 
 import by.bycar.carservice.dto.create.UserCreateDTO;
 import by.bycar.carservice.dto.response.UserResponseDTO;
+import by.bycar.carservice.dto.update.UserUpdateDTO;
+import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.mapper.UserMapper;
 import by.bycar.carservice.model.User;
 import by.bycar.carservice.repository.UserRepository;
@@ -21,14 +23,24 @@ public class UserService {
     public UserResponseDTO create(UserCreateDTO userCreateDTO) {
         User user = userMapper.toEntity(userCreateDTO);
         User savedUser = userRepository.save(user);
-        return userMapper.toDTO(savedUser);
+        return userMapper.toResponseDTO(savedUser);
     }
 
     public List<UserResponseDTO> findAll() {
         return userRepository.findAll()
                 .stream()
-                .map(userMapper::toDTO)
+                .map(userMapper::toResponseDTO)
                 .toList();
+    }
+
+    @Transactional
+    public UserResponseDTO update(Long id, UserUpdateDTO dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CarServiceException("Пользователь не найден"));
+
+        userMapper.updateEntityFromDto(dto, user);
+
+        return userMapper.toResponseDTO(userRepository.save(user));
     }
 
     @Transactional

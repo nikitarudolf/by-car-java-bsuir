@@ -2,30 +2,22 @@ package by.bycar.carservice.mapper;
 
 import by.bycar.carservice.dto.create.ModelCreateDTO;
 import by.bycar.carservice.dto.response.ModelResponseDTO;
+import by.bycar.carservice.dto.update.ModelUpdateDTO;
 import by.bycar.carservice.model.Model;
-import by.bycar.carservice.repository.BrandRepository;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class ModelMapper {
-    private final BrandRepository brandRepository;
-    private final BrandMapper brandMapper;
+@Mapper(componentModel = "spring", uses = {BrandMapper.class})
+public interface ModelMapper {
 
-    public Model toEntity(ModelCreateDTO modelCreateDTO) {
-        return Model.builder()
-                .name(modelCreateDTO.name())
-                .brand(brandRepository.findById(modelCreateDTO.brandId()).orElseThrow())
-                .build();
-    }
+    @Mapping(source = "brand", target = "brand")
+    ModelResponseDTO toResponseDTO(Model model);
 
-    public ModelResponseDTO toDTO(Model model) {
-        return ModelResponseDTO.builder()
-                .id(model.getId())
-                .name(model.getName())
-                .brand(brandMapper
-                        .toDTO(model.getBrand()))
-                .build();
-    }
+    @Mapping(target = "brand", ignore = true)
+    Model toEntity(ModelCreateDTO dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "brand", ignore = true)
+    void updateEntityFromDto(ModelUpdateDTO dto, @MappingTarget Model model);
 }

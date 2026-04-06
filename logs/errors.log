@@ -1,0 +1,2 @@
+2026-04-06 08:35:28.380 [http-nio-8080-exec-1] ERROR b.b.c.e.GlobalExceptionHandler - 404_NOT_FOUNDAd with id 45678 not found/api/ads/45678
+2026-04-06 08:36:53.015 [http-nio-8080-exec-1] ERROR b.b.c.e.GlobalExceptionHandler - 404_NOT_FOUND Ad with id 45678 not found /api/ads/45678
