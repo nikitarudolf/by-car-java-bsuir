@@ -42,16 +42,17 @@ public class FeatureService {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(featureMapper::toEntity)
-                .map(feature -> {
-                    if ("error".equalsIgnoreCase(feature.getName())) {
-                        throw new IllegalArgumentException("Искусственный сбой транзакции");
-                    }
-                    return feature;
-                })
                 .toList();
 
-        return featureRepository.saveAll(entities)
-                .stream()
+        List<Feature> savedEntities = featureRepository.saveAll(entities);
+
+        for (Feature feature : savedEntities) {
+            if ("error".equalsIgnoreCase(feature.getName())) {
+                throw new IllegalArgumentException("Искусственный сбой транзакции");
+            }
+        }
+
+        return savedEntities.stream()
                 .map(featureMapper::toResponseDTO)
                 .toList();
     }
