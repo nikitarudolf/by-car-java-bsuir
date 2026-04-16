@@ -116,6 +116,39 @@ BrandServiceTest {
     }
 
     @Test
+    void findById_ShouldReturnBrand_WhenExists() {
+        Long id = 1L;
+        Brand brand = new Brand();
+        brand.setId(id);
+        brand.setName("Toyota");
+        BrandResponseDTO responseDTO = BrandResponseDTO.builder()
+                .id(id)
+                .name("Toyota")
+                .build();
+
+        when(brandRepository.findById(id)).thenReturn(Optional.of(brand));
+        when(brandMapper.toResponseDTO(brand)).thenReturn(responseDTO);
+
+        Optional<BrandResponseDTO> result = brandService.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("Toyota", result.get().name());
+        verify(brandRepository).findById(id);
+    }
+
+    @Test
+    void findById_ShouldReturnEmpty_WhenNotExists() {
+        Long id = 1L;
+
+        when(brandRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<BrandResponseDTO> result = brandService.findById(id);
+
+        assertFalse(result.isPresent());
+        verify(brandRepository).findById(id);
+    }
+
+    @Test
     void deleteById_ShouldCallRepository() {
         Long id = 1L;
 

@@ -119,6 +119,41 @@ class UserServiceTest {
     }
 
     @Test
+    void findById_ShouldReturnUser_WhenExists() {
+        Long id = 1L;
+        User user = new User();
+        user.setId(id);
+        user.setName("John");
+        UserResponseDTO responseDTO = UserResponseDTO.builder()
+                .id(id)
+                .name("John")
+                .phone("+1234567890")
+                .ads(null)
+                .build();
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userMapper.toResponseDTO(user)).thenReturn(responseDTO);
+
+        Optional<UserResponseDTO> result = userService.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("John", result.get().name());
+        verify(userRepository).findById(id);
+    }
+
+    @Test
+    void findById_ShouldReturnEmpty_WhenNotExists() {
+        Long id = 1L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<UserResponseDTO> result = userService.findById(id);
+
+        assertFalse(result.isPresent());
+        verify(userRepository).findById(id);
+    }
+
+    @Test
     void deleteById_ShouldCallRepository() {
         Long id = 1L;
 

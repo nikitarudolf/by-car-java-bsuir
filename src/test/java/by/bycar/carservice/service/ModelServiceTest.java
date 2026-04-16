@@ -162,6 +162,40 @@ class ModelServiceTest {
     }
 
     @Test
+    void findById_ShouldReturnModel_WhenExists() {
+        Long id = 1L;
+        Model model = new Model();
+        model.setId(id);
+        model.setName("Camry");
+        ModelResponseDTO responseDTO = ModelResponseDTO.builder()
+                .id(id)
+                .name("Camry")
+                .brand(null)
+                .build();
+
+        when(modelRepository.findById(id)).thenReturn(Optional.of(model));
+        when(modelMapper.toResponseDTO(model)).thenReturn(responseDTO);
+
+        Optional<ModelResponseDTO> result = modelService.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("Camry", result.get().name());
+        verify(modelRepository).findById(id);
+    }
+
+    @Test
+    void findById_ShouldReturnEmpty_WhenNotExists() {
+        Long id = 1L;
+
+        when(modelRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<ModelResponseDTO> result = modelService.findById(id);
+
+        assertFalse(result.isPresent());
+        verify(modelRepository).findById(id);
+    }
+
+    @Test
     void deleteById_ShouldCallRepository() {
         Long id = 1L;
 

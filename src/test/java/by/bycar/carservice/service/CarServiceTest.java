@@ -191,6 +191,43 @@ class CarServiceTest {
     }
 
     @Test
+    void findById_ShouldReturnCar_WhenExists() {
+        Long id = 1L;
+        Car car = new Car();
+        car.setId(id);
+        car.setVin("VIN123");
+        CarResponseDTO responseDTO = CarResponseDTO.builder()
+                .id(id)
+                .year(2020)
+                .mileage(50000)
+                .vin("VIN123")
+                .model(null)
+                .features(null)
+                .build();
+
+        when(carRepository.findById(id)).thenReturn(Optional.of(car));
+        when(carMapper.toResponseDTO(car)).thenReturn(responseDTO);
+
+        Optional<CarResponseDTO> result = carService.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("VIN123", result.get().vin());
+        verify(carRepository).findById(id);
+    }
+
+    @Test
+    void findById_ShouldReturnEmpty_WhenNotExists() {
+        Long id = 1L;
+
+        when(carRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<CarResponseDTO> result = carService.findById(id);
+
+        assertFalse(result.isPresent());
+        verify(carRepository).findById(id);
+    }
+
+    @Test
     void deleteById_ShouldCallRepository() {
         Long id = 1L;
 

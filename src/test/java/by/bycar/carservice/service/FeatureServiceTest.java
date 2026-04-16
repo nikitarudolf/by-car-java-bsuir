@@ -157,6 +157,36 @@ class FeatureServiceTest {
     }
 
     @Test
+    void findById_ShouldReturnFeature_WhenExists() {
+        Long id = 1L;
+        Feature feature = new Feature();
+        feature.setId(id);
+        feature.setName("ABS");
+        FeatureResponseDTO responseDTO = new FeatureResponseDTO(id, "ABS");
+
+        when(featureRepository.findById(id)).thenReturn(Optional.of(feature));
+        when(featureMapper.toResponseDTO(feature)).thenReturn(responseDTO);
+
+        Optional<FeatureResponseDTO> result = featureService.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("ABS", result.get().name());
+        verify(featureRepository).findById(id);
+    }
+
+    @Test
+    void findById_ShouldReturnEmpty_WhenNotExists() {
+        Long id = 1L;
+
+        when(featureRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<FeatureResponseDTO> result = featureService.findById(id);
+
+        assertFalse(result.isPresent());
+        verify(featureRepository).findById(id);
+    }
+
+    @Test
     void deleteById_ShouldCallRepository() {
         Long id = 1L;
 
