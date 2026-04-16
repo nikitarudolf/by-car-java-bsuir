@@ -7,11 +7,13 @@ import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.mapper.FeatureMapper;
 import by.bycar.carservice.model.Feature;
 import by.bycar.carservice.repository.FeatureRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,31 @@ public class FeatureService {
                 stream().
                 map(featureMapper::toResponseDTO).
                 toList();
+    }
+
+    @Transactional
+    public List<FeatureResponseDTO> saveAll(List<FeatureCreateDTO> dtos) {
+        List<Feature> entities = Optional.ofNullable(dtos)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(featureMapper::toEntity)
+                .map(feature -> {
+                    if ("error".equalsIgnoreCase(feature.getName())) {
+                        throw new IllegalArgumentException("Искусственный сбой транзакции");
+                    }
+                    return feature;
+                })
+                .toList();
+
+        return featureRepository.saveAll(entities)
+                .stream()
+                .map(featureMapper::toResponseDTO)
+                .toList();
+    }
+
+    public Optional<FeatureResponseDTO> findById(Long id) {
+        return featureRepository.findById(id)
+                .map(featureMapper::toResponseDTO);
     }
 
     @Transactional

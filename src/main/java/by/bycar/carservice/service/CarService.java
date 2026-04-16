@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,11 @@ public class CarService {
                 .stream()
                 .map(carMapper::toResponseDTO)
                 .toList();
+    }
+
+    public Optional<CarResponseDTO> findById(Long id) {
+        return carRepository.findById(id)
+                .map(carMapper::toResponseDTO);
     }
 
     @Transactional

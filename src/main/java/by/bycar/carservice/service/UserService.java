@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,11 @@ public class UserService {
                 .stream()
                 .map(userMapper::toResponseDTO)
                 .toList();
+    }
+
+    public Optional<UserResponseDTO> findById(Long id) {
+        return userRepository.findById(id)
+                .map(userMapper::toResponseDTO);
     }
 
     @Transactional

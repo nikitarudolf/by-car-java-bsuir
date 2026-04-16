@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,11 @@ public class BrandService {
                 .stream()
                 .map(brandMapper::toResponseDTO)
                 .toList();
+    }
+
+    public Optional<BrandResponseDTO> findById(Long id) {
+        return brandRepository.findById(id)
+                .map(brandMapper::toResponseDTO);
     }
 
     @Transactional

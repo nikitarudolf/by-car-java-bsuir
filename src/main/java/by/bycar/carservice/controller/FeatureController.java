@@ -6,6 +6,8 @@ import by.bycar.carservice.dto.update.FeatureUpdateDTO;
 import by.bycar.carservice.service.FeatureService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +36,10 @@ public class FeatureController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         featureService.deleteById(id);
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<FeatureResponseDTO>> createFeaturesBulk(@RequestBody List<FeatureCreateDTO> dtos) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(featureService.saveAll(dtos));
     }
 }

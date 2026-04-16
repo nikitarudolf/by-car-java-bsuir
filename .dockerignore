@@ -1,0 +1,15 @@
+target/
+.mvn/
+.git/
+.idea/
+*.iml
+*.iws
+*.ipr
+.env
+.env.example
+docker-compose.yml
+Dockerfile
+README.md
+THEORY.md
+logs/
+.gitignore
