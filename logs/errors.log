@@ -63,3 +63,5 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
 2026-04-16 13:56:59.535 [http-nio-8080-exec-2] ERROR b.b.c.e.GlobalExceptionHandler - 500_INTERNAL_SERVER_ERROR Искусственный сбой транзакции /api/feature/bulk
 2026-04-16 13:57:40.748 [http-nio-8080-exec-1] ERROR b.b.c.e.GlobalExceptionHandler - 500_INTERNAL_SERVER_ERROR Искусственный сбой транзакции /api/feature/bulk
 2026-04-16 14:01:03.485 [http-nio-8080-exec-6] ERROR b.b.c.e.GlobalExceptionHandler - 500_INTERNAL_SERVER_ERROR Искусственный сбой транзакции /api/feature/bulk
+2026-04-16 14:21:26.230 [http-nio-8080-exec-8] ERROR b.b.c.e.GlobalExceptionHandler - 500_INTERNAL_SERVER_ERROR Искусственный сбой транзакции /api/feature/bulk
+2026-04-16 14:22:44.961 [http-nio-8080-exec-1] ERROR b.b.c.e.GlobalExceptionHandler - 500_INTERNAL_SERVER_ERROR Искусственный сбой транзакции /api/feature/bulk

@@ -36,7 +36,7 @@ public class FeatureService {
                 toList();
     }
 
-    @Transactional
+
     public List<FeatureResponseDTO> saveAll(List<FeatureCreateDTO> dtos) {
         List<Feature> entities = Optional.ofNullable(dtos)
                 .orElse(Collections.emptyList())
@@ -44,15 +44,13 @@ public class FeatureService {
                 .map(featureMapper::toEntity)
                 .toList();
 
-        List<Feature> savedEntities = featureRepository.saveAll(entities);
-
-        for (Feature feature : savedEntities) {
-            if ("error".equalsIgnoreCase(feature.getName())) {
-                throw new IllegalArgumentException("Искусственный сбой транзакции");
-            }
-        }
-
-        return savedEntities.stream()
+        return featureRepository.saveAll(entities)
+                .stream()
+                .peek(feature -> {
+                    if ("error".equalsIgnoreCase(feature.getName())) {
+                        throw new IllegalArgumentException("Искусственный сбой транзакции");
+                    }
+                })
                 .map(featureMapper::toResponseDTO)
                 .toList();
     }
