@@ -1,6 +1,7 @@
 package by.bycar.carservice.service;
 
 import by.bycar.carservice.cache.AdvertisementIndex;
+import by.bycar.carservice.concurrency.ViewCounterService;
 import by.bycar.carservice.dto.SearchCriteria;
 import by.bycar.carservice.dto.create.AdvertisementCreateDTO;
 import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
@@ -34,6 +35,7 @@ public class AdvertisementService {
     private final FeatureRepository featureRepository;
     private final AdvertisementIndex advertisementIndex;
     private final AdMapper adMapper;
+    private final ViewCounterService viewCounterService;
 
 
     public Page<AdvertisementResponseDTO> getAdvertisements(String brand, Double price, Pageable pageable) {
@@ -132,10 +134,19 @@ public class AdvertisementService {
                 .toList();
     }
 
+    @Transactional
     public AdvertisementResponseDTO findById(Long id) {
-        return advertisementRepository.findById(id)
-                .map(adMapper::toResponseDTO)
+        Advertisement ad = advertisementRepository.findById(id)
                 .orElseThrow(() -> new CarServiceException("Ad with id " + id + " not found"));
+
+        // Increment view counter in database
+        ad.setViewsCount(ad.getViewsCount() + 1);
+        advertisementRepository.save(ad);
+
+        // Also increment in-memory counter for demo purposes
+        viewCounterService.incrementViewsAtomic(id);
+
+        return adMapper.toResponseDTO(ad);
     }
 
     public List<AdvertisementResponseDTO> findByYear(Integer year) {

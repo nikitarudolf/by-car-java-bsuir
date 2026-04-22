@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/ads")
+@RequestMapping("/api/advertisements")
 @RequiredArgsConstructor
 public class AdController {
     private final AdvertisementService advertisementService;
@@ -60,16 +60,16 @@ public class AdController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<AdvertisementResponseDTO>> search(
-            @RequestParam String brand,
-            @RequestParam Double maxPrice, Pageable pageable) {
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) Double maxPrice, Pageable pageable) {
 
         return ResponseEntity.ok(advertisementService.getAdvertisements(brand, maxPrice, pageable));
     }
 
     @GetMapping("/searchNative")
     public ResponseEntity<Page<AdvertisementResponseDTO>> searchNative(
-            @RequestParam String brand,
-            @RequestParam Double maxPrice, Pageable pageable) {
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) Double maxPrice, Pageable pageable) {
 
         return ResponseEntity.ok(advertisementService.getAdvertisementsNative(brand, maxPrice, pageable));
     }

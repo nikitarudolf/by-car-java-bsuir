@@ -36,7 +36,7 @@ public class FeatureService {
                 toList();
     }
 
-
+    @Transactional
     public List<FeatureResponseDTO> saveAll(List<FeatureCreateDTO> dtos) {
         List<Feature> entities = Optional.ofNullable(dtos)
                 .orElse(Collections.emptyList())

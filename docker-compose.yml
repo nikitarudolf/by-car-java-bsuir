@@ -20,11 +20,11 @@ services:
     networks:
       - bycar-network
 
-  app:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bycar_app
+    container_name: bycar_backend
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,15 +33,46 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME:-admin}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-admin}
       SPRING_JPA_HIBERNATE_DDL_AUTO: ${DDL_AUTO:-update}
-      SPRING_JPA_SHOW_SQL: ${SHOW_SQL:-true}
+      SPRING_JPA_SHOW_SQL: ${SHOW_SQL:-false}
+      SPRING_SQL_INIT_MODE: ${INIT_DATA:-never}
+      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: true
     ports:
       - "${APP_PORT:-8080}:8080"
+    volumes:
+      - app_logs:/app/logs
     networks:
       - bycar-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8080/api/brands || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bycar_frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    networks:
+      - bycar-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:80 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 volumes:
   postgres_data:
+  app_logs:
 
 networks:
   bycar-network:

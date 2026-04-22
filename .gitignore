@@ -38,3 +38,4 @@ build/
 
 ### Docker & Environment ###
 .env
+/frontend/node_modules/

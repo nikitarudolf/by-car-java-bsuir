@@ -16,8 +16,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "cars")
 public class Feature {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feature_seq")
-    @SequenceGenerator(name = "feature_seq", sequenceName = "feature_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name", length = 50)
     @NotBlank

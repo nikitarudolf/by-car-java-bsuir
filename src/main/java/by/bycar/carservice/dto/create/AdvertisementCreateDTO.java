@@ -5,6 +5,10 @@ import java.util.List;
 
 public record AdvertisementCreateDTO(
 
+        @NotBlank(message = "Заголовок не может быть пустым")
+        @Size(min = 5, max = 200, message = "Заголовок должен содержать от 5 до 200 символов")
+        String title,
+
         @NotBlank(message = "Описание не может быть пустым")
         @Size(min = 10, max = 2000, message = "Описание должно содержать от 10 до 2000 символов")
         String description,
@@ -12,6 +16,21 @@ public record AdvertisementCreateDTO(
         @NotNull(message = "Цена должна быть указана")
         @Positive(message = "Цена должна быть больше нуля")
         Double price,
+
+        @Size(max = 100, message = "Название города не может превышать 100 символов")
+        String city,
+
+        @Size(max = 100, message = "Название региона не может превышать 100 символов")
+        String region,
+
+        @Size(max = 100, message = "Контактное имя не может превышать 100 символов")
+        String contactName,
+
+        Boolean showPhone,
+
+        Boolean negotiable,
+
+        Boolean exchangePossible,
 
         @NotNull(message = "ID пользователя обязателен")
         @Positive(message = "ID пользователя должен быть положительным числом")
