@@ -61,9 +61,13 @@ public class AdController {
     @GetMapping("/search")
     public ResponseEntity<Page<AdvertisementResponseDTO>> search(
             @RequestParam(required = false) String brand,
-            @RequestParam(required = false) Double maxPrice, Pageable pageable) {
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Integer minYear,
+            @RequestParam(required = false) Integer maxYear,
+            Pageable pageable) {
 
-        return ResponseEntity.ok(advertisementService.getAdvertisements(brand, maxPrice, pageable));
+        return ResponseEntity.ok(advertisementService.getAdvertisements(brand, minPrice, maxPrice, minYear, maxYear, pageable));
     }
 
     @GetMapping("/searchNative")
@@ -74,5 +78,9 @@ public class AdController {
         return ResponseEntity.ok(advertisementService.getAdvertisementsNative(brand, maxPrice, pageable));
     }
 
+    @GetMapping("/user/{userId}")
+    public List<AdvertisementResponseDTO> findByUserId(@PathVariable Long userId) {
+        return advertisementService.findByUserId(userId);
+    }
 
 }

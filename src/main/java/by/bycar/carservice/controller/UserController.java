@@ -4,6 +4,7 @@ package by.bycar.carservice.controller;
 import by.bycar.carservice.dto.create.UserCreateDTO;
 import by.bycar.carservice.dto.response.UserResponseDTO;
 import by.bycar.carservice.dto.update.UserUpdateDTO;
+import by.bycar.carservice.exception.CarServiceException;
 import by.bycar.carservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,12 @@ public class UserController {
     @GetMapping
     public List<UserResponseDTO> findAll() {
         return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserResponseDTO findById(@PathVariable Long id) {
+        return userService.findById(id)
+                .orElseThrow(() -> new CarServiceException("User with id " + id + " not found"));
     }
 
     @DeleteMapping("/{id}")

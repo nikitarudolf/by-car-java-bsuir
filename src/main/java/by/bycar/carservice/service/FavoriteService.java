@@ -2,6 +2,7 @@ package by.bycar.carservice.service;
 
 import by.bycar.carservice.dto.FavoriteDto;
 import by.bycar.carservice.exception.CarServiceException;
+import by.bycar.carservice.mapper.AdMapper;
 import by.bycar.carservice.model.Advertisement;
 import by.bycar.carservice.model.Favorite;
 import by.bycar.carservice.model.User;
@@ -21,6 +22,7 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
     private final AdvertisementRepository advertisementRepository;
+    private final AdMapper adMapper;
 
     @Transactional
     public FavoriteDto addToFavorites(Long userId, Long advertisementId) {
@@ -66,6 +68,7 @@ public class FavoriteService {
                 .addedAt(favorite.getAddedAt())
                 .userId(favorite.getUser().getId())
                 .advertisementId(favorite.getAdvertisement().getId())
+                .advertisement(adMapper.toResponseDTO(favorite.getAdvertisement()))
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package by.bycar.carservice.concurrency;
 
-public class SynchronizedViewCounter implements ViewCounter {
+public class
+SynchronizedViewCounter implements ViewCounter {
     private long count = 0;
 
     @Override

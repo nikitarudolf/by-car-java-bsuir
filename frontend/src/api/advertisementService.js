@@ -48,6 +48,12 @@ const advertisementService = {
     const response = await axiosInstance.get('/advertisements/searchNative', { params });
     return response.data;
   },
+
+  // Get advertisements by user ID
+  getByUserId: async (userId) => {
+    const response = await axiosInstance.get(`/advertisements/user/${userId}`);
+    return response.data;
+  },
 };
 
 export default advertisementService;

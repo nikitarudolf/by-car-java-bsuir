@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
 import brandService from '../api/brandService';
+import favoriteService from '../api/favoriteService';
 import { theme } from '../theme';
 
 const AdvertisementSearch = () => {
   const navigate = useNavigate();
+  const { currentUser, isAuthenticated } = useAuth();
 
   const [filters, setFilters] = useState({ brand: '', maxPrice: '', minPrice: '', minYear: '', maxYear: '' });
   const [page, setPage] = useState(0);
@@ -16,9 +19,22 @@ const AdvertisementSearch = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState(new Set());
 
   useEffect(() => { loadBrands(); }, []);
   useEffect(() => { searchAdvertisements(); }, [page]);
+  useEffect(() => { if (currentUser) loadFavorites(); }, [currentUser, advertisements]);
+
+  const loadFavorites = async () => {
+    if (!currentUser) return;
+    try {
+      const userFavorites = await favoriteService.getUserFavorites(currentUser.id);
+      const favIds = new Set(userFavorites.map(f => f.advertisement.id));
+      setFavorites(favIds);
+    } catch (err) {
+      console.error('Failed to load favorites:', err);
+    }
+  };
 
   const loadBrands = async () => {
     try {
@@ -34,6 +50,9 @@ const AdvertisementSearch = () => {
       const params = { page, size, sort: 'price,asc' };
       if (filters.brand) params.brand = filters.brand;
       if (filters.maxPrice) params.maxPrice = parseFloat(filters.maxPrice);
+      if (filters.minPrice) params.minPrice = parseFloat(filters.minPrice);
+      if (filters.minYear) params.minYear = parseInt(filters.minYear);
+      if (filters.maxYear) params.maxYear = parseInt(filters.maxYear);
       const response = await advertisementService.search(params);
       if (response.content) {
         setAdvertisements(response.content);
@@ -63,6 +82,30 @@ const AdvertisementSearch = () => {
     setFilters({ brand: '', maxPrice: '', minPrice: '', minYear: '', maxYear: '' });
     setPage(0);
     setTimeout(() => searchAdvertisements(), 100);
+  };
+
+  const handleFavoriteToggle = async (e, adId) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      if (favorites.has(adId)) {
+        await favoriteService.removeFromFavorites(currentUser.id, adId);
+        setFavorites(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(adId);
+          return newSet;
+        });
+      } else {
+        await favoriteService.addToFavorites(currentUser.id, adId);
+        setFavorites(prev => new Set(prev).add(adId));
+      }
+    } catch (err) {
+      setError('Ошибка: ' + err.message);
+    }
   };
 
   const renderPagination = () => {
@@ -181,8 +224,8 @@ const AdvertisementSearch = () => {
                   const features = car.features || [];
 
                   return (
-                    <div key={ad.id} className="ad-card" onClick={() => navigate(`/advertisements/${ad.id}`)}>
-                      <div className="ad-card-body">
+                    <div key={ad.id} className="ad-card">
+                      <div className="ad-card-body" onClick={() => navigate(`/advertisements/${ad.id}`)}>
                         <div className="ad-card-title">{brand.name} {model.name}</div>
                         <div className="ad-card-sub">{car.year} · {car.mileage?.toLocaleString()} км</div>
                         <div className="ad-card-desc">{ad.description}</div>
@@ -196,7 +239,17 @@ const AdvertisementSearch = () => {
                       </div>
                       <div className="ad-card-footer">
                         <span className="ad-card-seller">{ad.sellerName}</span>
-                        <span className="badge-success">{ad.status}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <span className="badge-success">{ad.status}</span>
+                          <button
+                            className="btn-ghost"
+                            style={{ padding: '4px 8px', fontSize: 16, minWidth: 'auto' }}
+                            onClick={(e) => handleFavoriteToggle(e, ad.id)}
+                            title={favorites.has(ad.id) ? 'Удалить из избранного' : 'Добавить в избранное'}
+                          >
+                            {favorites.has(ad.id) ? '❤️' : '♡'}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );

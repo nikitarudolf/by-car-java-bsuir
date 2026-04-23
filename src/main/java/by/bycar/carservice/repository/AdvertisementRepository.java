@@ -24,6 +24,19 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
             + "JOIN FETCH m.brand b "
             + "LEFT JOIN FETCH c.features f "
             + "WHERE (:brandName IS NULL OR :brandName = '' OR b.name = :brandName) "
+            + "AND (:maxPrice IS NULL OR a.price <= :maxPrice) "
+            + "AND (:minPrice IS NULL OR a.price >= :minPrice) "
+            + "AND (:minYear IS NULL OR c.year >= :minYear) "
+            + "AND (:maxYear IS NULL OR c.year <= :maxYear)")
+    Page<Advertisement> findAllByFilters(String brandName, Double minPrice, Double maxPrice, Integer minYear, Integer maxYear, Pageable pageable);
+
+    @Query("SELECT a FROM Advertisement a "
+            + "JOIN FETCH a.user u "
+            + "JOIN FETCH a.car c "
+            + "JOIN FETCH c.model m "
+            + "JOIN FETCH m.brand b "
+            + "LEFT JOIN FETCH c.features f "
+            + "WHERE (:brandName IS NULL OR :brandName = '' OR b.name = :brandName) "
             + "AND (:maxPrice IS NULL OR a.price <= :maxPrice)")
     Page<Advertisement> findAllByBrandAndPriceJPQL(String brandName, Double maxPrice, Pageable pageable);
 
@@ -38,5 +51,8 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     List<Advertisement> findAllWithFetch();
 
     List<Advertisement> findAllByCarYear(Integer carYear);
+
+    @EntityGraph(attributePaths = {"user", "car", "car.model", "car.features", "car.model.brand"})
+    List<Advertisement> findAllByUserId(Long userId);
 
 }

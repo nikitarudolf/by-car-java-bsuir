@@ -38,20 +38,12 @@ public class AdvertisementService {
     private final ViewCounterService viewCounterService;
 
 
-    public Page<AdvertisementResponseDTO> getAdvertisements(String brand, Double price, Pageable pageable) {
-        SearchCriteria key = new SearchCriteria(brand, price, pageable.getPageNumber(), pageable.getPageSize());
-
-        if (advertisementIndex.contains(key)) {
-            log.info("[CACHE] Данные получены из кэша: бренд={}, цена={}", brand, price);
-            return advertisementIndex.get(key);
-        }
-
-        log.info("[DB] Запрос к БД (JPQL): бренд={}, цена={}", brand, price);
+    public Page<AdvertisementResponseDTO> getAdvertisements(String brand, Double minPrice, Double maxPrice, Integer minYear, Integer maxYear, Pageable pageable) {
+        log.info("[DB] Запрос к БД (JPQL): бренд={}, minPrice={}, maxPrice={}, minYear={}, maxYear={}", brand, minPrice, maxPrice, minYear, maxYear);
         Page<AdvertisementResponseDTO> result = advertisementRepository
-                .findAllByBrandAndPriceJPQL(brand, price, pageable)
+                .findAllByFilters(brand, minPrice, maxPrice, minYear, maxYear, pageable)
                 .map(adMapper::toResponseDTO);
 
-        advertisementIndex.put(key, result);
         return result;
     }
 
@@ -87,6 +79,17 @@ public class AdvertisementService {
                 .model(modelRepository.findById(dto.modelId())
                         .orElseThrow(() -> new CarServiceException("Model not found")))
                 .features(new HashSet<>(featureRepository.findAllById(dto.featureIds())))
+                .engineType(dto.engineType())
+                .engineVolume(dto.engineVolume())
+                .enginePower(dto.enginePower())
+                .transmissionType(dto.transmissionType())
+                .driveType(dto.driveType())
+                .bodyType(dto.bodyType())
+                .color(dto.color())
+                .doorsCount(dto.doorsCount())
+                .fuelConsumption(dto.fuelConsumption())
+                .condition(dto.condition())
+                .isCustomsCleared(dto.isCustomsCleared())
                 .build();
 
         ad.setCar(car);
@@ -139,11 +142,9 @@ public class AdvertisementService {
         Advertisement ad = advertisementRepository.findById(id)
                 .orElseThrow(() -> new CarServiceException("Ad with id " + id + " not found"));
 
-        // Increment view counter in database
         ad.setViewsCount(ad.getViewsCount() + 1);
         advertisementRepository.save(ad);
 
-        // Also increment in-memory counter for demo purposes
         viewCounterService.incrementViewsAtomic(id);
 
         return adMapper.toResponseDTO(ad);
@@ -151,6 +152,13 @@ public class AdvertisementService {
 
     public List<AdvertisementResponseDTO> findByYear(Integer year) {
         return advertisementRepository.findAllByCarYear(year)
+                .stream()
+                .map(adMapper::toResponseDTO)
+                .toList();
+    }
+
+    public List<AdvertisementResponseDTO> findByUserId(Long userId) {
+        return advertisementRepository.findAllByUserId(userId)
                 .stream()
                 .map(adMapper::toResponseDTO)
                 .toList();

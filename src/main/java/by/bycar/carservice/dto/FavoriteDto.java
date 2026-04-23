@@ -1,5 +1,6 @@
 package by.bycar.carservice.dto;
 
+import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class FavoriteDto {
     private LocalDateTime addedAt;
     private Long userId;
     private Long advertisementId;
+    private AdvertisementResponseDTO advertisement;
 }

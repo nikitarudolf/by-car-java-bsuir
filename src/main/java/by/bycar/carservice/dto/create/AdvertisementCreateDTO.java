@@ -1,5 +1,6 @@
 package by.bycar.carservice.dto.create;
 
+import by.bycar.carservice.model.enums.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
 
@@ -54,6 +55,35 @@ public record AdvertisementCreateDTO(
         String vin,
 
         @NotNull(message = "Список характеристик не должен быть null (но может быть пустым)")
-        List<Long> featureIds
+        List<Long> featureIds,
+
+        EngineType engineType,
+
+        @DecimalMin(value = "0.0", message = "Объем двигателя не может быть отрицательным")
+        @DecimalMax(value = "10.0", message = "Объем двигателя не может превышать 10.0 л")
+        Double engineVolume,
+
+        @Positive(message = "Мощность двигателя должна быть положительной")
+        Integer enginePower,
+
+        TransmissionType transmissionType,
+
+        DriveType driveType,
+
+        BodyType bodyType,
+
+        @Size(max = 50, message = "Название цвета не может превышать 50 символов")
+        String color,
+
+        @Min(value = 2, message = "Количество дверей не может быть меньше 2")
+        @Max(value = 5, message = "Количество дверей не может быть больше 5")
+        Integer doorsCount,
+
+        @DecimalMin(value = "0.0", message = "Расход топлива не может быть отрицательным")
+        Double fuelConsumption,
+
+        CarCondition condition,
+
+        Boolean isCustomsCleared
 ) {
 }

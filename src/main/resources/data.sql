@@ -178,13 +178,13 @@ INSERT INTO cars (year, mileage, vin, engine_type, engine_volume, engine_power, 
 (2020, 45000, 'JT2BF18K0X0123456', 'PETROL', 2.5, 181, 'AUTOMATIC', 'FRONT', 'SEDAN', 'Черный', 4, 7.5, 'USED', true, 1),
 (2019, 65000, 'WBADT43452G123456', 'DIESEL', 2.0, 190, 'AUTOMATIC', 'REAR', 'SEDAN', 'Белый', 4, 5.8, 'USED', true, 11),
 (2021, 25000, 'WDD2050071F123456', 'PETROL', 2.0, 204, 'AUTOMATIC', 'REAR', 'SEDAN', 'Серебристый', 4, 7.2, 'USED', true, 21),
-(2022, 15000, 'WAUZZZ8V8MA123456', 'HYBRID', 2.0, 252, 'AUTOMATIC', 'ALL', 'SUV', 'Синий', 5, 6.5, 'USED', true, 26),
-(2018, 85000, 'WVWZZZ3CZJE123456', 'PETROL', 1.4, 150, 'ROBOT', 'FRONT', 'HATCHBACK', 'Красный', 5, 5.9, 'USED', true, 31),
-(2023, 5000, '1FAHP3K28NL123456', 'PETROL', 5.0, 450, 'AUTOMATIC', 'REAR', 'COUPE', 'Желтый', 2, 12.5, 'NEW', true, 36),
-(2020, 55000, '19UUB2F58LA123456', 'PETROL', 1.5, 174, 'VARIATOR', 'FRONT', 'SEDAN', 'Белый', 4, 6.2, 'USED', true, 45),
-(2021, 35000, '5N1AR2MM8MC123456', 'ELECTRIC', 0.0, 214, 'AUTOMATIC', 'FRONT', 'SUV', 'Черный', 5, 0.0, 'USED', true, 60),
-(2019, 70000, 'KMHD84LF5KU123456', 'DIESEL', 2.0, 185, 'AUTOMATIC', 'ALL', 'SUV', 'Серый', 5, 6.8, 'USED', true, 63),
-(2022, 20000, '5XYP5DHC5NG123456', 'PETROL', 2.5, 191, 'AUTOMATIC', 'ALL', 'SUV', 'Белый', 5, 8.1, 'USED', true, 74);
+(2022, 15000, 'WAUZZZ8V8MA123456', 'HYBRID', 2.0, 252, 'AUTOMATIC', 'ALL', 'SUV', 'Синий', 5, 6.5, 'USED', true, 36),
+(2018, 85000, 'WVWZZZ3CZJE123456', 'PETROL', 1.4, 150, 'ROBOT', 'FRONT', 'HATCHBACK', 'Красный', 5, 5.9, 'USED', true, 41),
+(2023, 5000, '1FAHP3K28NL123456', 'PETROL', 5.0, 450, 'AUTOMATIC', 'REAR', 'COUPE', 'Желтый', 2, 12.5, 'NEW', true, 53),
+(2020, 55000, '19UUB2F58LA123456', 'PETROL', 1.5, 174, 'VARIATOR', 'FRONT', 'SEDAN', 'Белый', 4, 6.2, 'USED', true, 71),
+(2021, 35000, '5N1AR2MM8MC123456', 'ELECTRIC', 0.0, 214, 'AUTOMATIC', 'FRONT', 'SUV', 'Черный', 5, 0.0, 'USED', true, 90),
+(2019, 70000, 'KMHD84LF5KU123456', 'DIESEL', 2.0, 185, 'AUTOMATIC', 'ALL', 'SUV', 'Серый', 5, 6.8, 'USED', true, 93),
+(2022, 20000, '5XYP5DHC5NG123456', 'PETROL', 2.5, 191, 'AUTOMATIC', 'ALL', 'SUV', 'Белый', 5, 8.1, 'USED', true, 104);
 
 -- Advertisements
 INSERT INTO advertisement (title, description, price, city, region, views_count, status, show_phone, contact_name, negotiable, exchange_possible, user_id, car_id) VALUES
@@ -224,48 +224,37 @@ INSERT INTO car_features (car_id, feature_id) VALUES
 
 -- Photos for advertisements
 INSERT INTO photos (url, order_index, is_main, advertisement_id) VALUES
--- Toyota Camry 2020 Black photos
-('https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=1200', 0, true, 1),
-('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=1200', 1, false, 1),
-('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200', 2, false, 1),
--- BMW 3 Series 2019 White photos
-('https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200', 0, true, 2),
-('https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200', 1, false, 2),
-('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=1200', 2, false, 2),
--- Mercedes C-Class 2021 Silver photos
-('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200', 0, true, 3),
-('https://images.unsplash.com/photo-1617531653520-bd466c5bd2c9?w=1200', 1, false, 3),
-('https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=1200', 2, false, 3),
--- Audi Q5 2022 Blue SUV photos
-('https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1200', 0, true, 4),
-('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200', 1, false, 4),
-('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=1200', 2, false, 4),
--- VW Golf 2018 Red Hatchback photos
-('https://images.unsplash.com/photo-1622353219448-46a009f0d44f?w=1200', 0, true, 5),
-('https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200', 1, false, 5),
-('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200', 2, false, 5),
--- Ford Mustang 2023 Yellow Coupe photos
-('https://images.unsplash.com/photo-1584345604476-8ec5f5e8e8b6?w=1200', 0, true, 6),
-('https://images.unsplash.com/photo-1547744152-14d985cb937f?w=1200', 1, false, 6),
-('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200', 2, false, 6),
-('https://images.unsplash.com/photo-1542362567-b07e54358753?w=1200', 3, false, 6),
--- Honda Civic 2020 White photos
-('https://images.unsplash.com/photo-1590362891991-f776e747a588?w=1200', 0, true, 7),
-('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1200', 1, false, 7),
-('https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=1200', 2, false, 7),
--- Nissan Leaf 2021 Black Electric photos
-('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200', 0, true, 8),
-('https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=1200', 1, false, 8),
-('https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=1200', 2, false, 8),
--- Hyundai Tucson 2019 Gray SUV photos
-('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=1200', 0, true, 9),
-('https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=1200', 1, false, 9),
-('https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1200', 2, false, 9),
--- Kia Sorento 2022 White SUV photos
-('https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=1200', 0, true, 10),
-('https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=1200', 1, false, 10),
-('https://images.unsplash.com/photo-1581540222194-0def2dda95b8?w=1200', 2, false, 10);
+-- 1. Toyota Camry (Черная)
+('https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 0, true, 1),
 
+-- 2. BMW 3 Series (Белая)
+('https://images.unsplash.com/photo-1734554275379-9600817f5655?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Qk1XJTIwMyUyMFNlcmllcyUyMCglRDAlOTElRDAlQjUlRDAlQkIlRDAlQjAlRDElOEYpfGVufDB8fDB8fHww', 0, true, 2),
+('https://images.unsplash.com/photo-1734554258108-63f09694fe88?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Qk1XJTIwMyUyMFNlcmllcyUyMCglRDAlOTElRDAlQjUlRDAlQkIlRDAlQjAlRDElOEYpfGVufDB8fDB8fHww', 1, true, 2),
+('https://images.unsplash.com/photo-1734554284184-4bcf245250c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 3, true, 2),
+-- 3. Mercedes-Benz C-Class (Серебристый)
+('https://images.unsplash.com/photo-1664626692098-2e35eb4aa7ca?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWVyY2VkZXMlMjBiZW56JTIwYyUyMGNsYXNzfGVufDB8fDB8fHww', 0, true, 3),
+('https://images.unsplash.com/photo-1686562472684-f305deb11c92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 1, true, 3),
+('https://images.unsplash.com/photo-1664626670384-21fad2ee8610?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 2, true, 3),
+-- 4. Audi Q5 (Синий SUV)
+('https://images.unsplash.com/photo-1769641156976-f7a62f61800f?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fC0tJTIwNC4lMjBBdWRpJTIwUTUlMjAoJUQwJUExJUQwJUI4JUQwJUJEJUQwJUI4JUQwJUI5JTIwU1VWKXxlbnwwfHwwfHx8MA%3D%3D', 0, true, 4),
+
+-- 5. Volkswagen Golf (Красный хэтчбек)
+('https://images.unsplash.com/photo-1624978971503-3e5b8c9d5bd1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8LS0lMjA1LiUyMFZvbGtzd2FnZW4lMjBHb2xmJTIwKCVEMCU5QSVEMSU4MCVEMCVCMCVEMSU4MSVEMCVCRCVEMSU4QiVEMCVCOSUyMCVEMSU4NSVEMSU4RCVEMSU4MiVEMSU4NyVEMCVCMSVEMCVCNSVEMCVCQSl8ZW58MHx8MHx8fDA%3D', 0, true, 5),
+
+-- 6. Ford Mustang (Желтый)
+('https://images.unsplash.com/photo-1581650107963-3e8c1f48241b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fC0tJTIwNi4lMjBGb3JkJTIwTXVzdGFuZyUyMCglRDAlOTYlRDAlQjUlRDAlQkIlRDElODIlRDElOEIlRDAlQjkpfGVufDB8fDB8fHww', 0, true, 6),
+
+-- 7. Honda Civic (Белая)
+('https://images.unsplash.com/photo-1613751382362-6492c991bc91?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fC0tJTIwNy4lMjBIb25kYSUyMENpdmljJTIwKCVEMCU5MSVEMCVCNSVEMCVCQiVEMCVCMCVEMSU4Ril8ZW58MHx8MHx8fDA%3D', 0, true, 7),
+
+-- 8. Nissan Leaf / Electric (Черный/Темный)
+('https://images.unsplash.com/photo-1581540222194-0def2dda95b8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fE5pc3NhbnxlbnwwfHwwfHx8MA%3D%3D', 0, true, 8),
+
+-- 9. Hyundai Tucson (Серый SUV)tot
+('https://images.unsplash.com/photo-1706082072635-d19df8f0f3fb?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8LS0lMjA5LiUyMEh5dW5kYWklMjBUdWNzb24lMjAoJUQwJUExJUQwJUI1JUQxJTgwJUQxJThCJUQwJUI5JTIwU1VWKXRvdHxlbnwwfHwwfHx8MA%3D%3D', 0, true, 9),
+
+-- 10. Kia Sorento (Белый SUV)
+('https://images.unsplash.com/photo-1681965363638-0a59618faa1a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8LS0lMjAxMC4lMjBLaWElMjBTb3JlbnRvJTIwKCVEMCU5MSVEMCVCNSVEMCVCQiVEMSU4QiVEMCVCOSUyMFNVVil8ZW58MHx8MHx8fDA%3D', 0, true, 10);
 -- Favorites (ManyToMany через промежуточную таблицу)
 INSERT INTO favorites (user_id, advertisement_id) VALUES
 (1, 2), (1, 4), (1, 6), (1, 8),
