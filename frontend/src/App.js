@@ -253,27 +253,51 @@ const styles = `
   }
   .feature-card:hover .card-arrow { transform: translate(3px,-3px); color: var(--accent); }
 
-  /* ── RELATIONS SECTION ── */
-  .relations-section {
+  /* ── CTA SECTION ── */
+  .cta-section {
     padding: 0 80px 100px;
   }
-  .rel-grid {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+  .cta-box {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
   }
-  .rel-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 28px;
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(232,255,71,0.08) 0%, transparent 50%);
+    animation: rotate 20s linear infinite;
   }
-  .rel-tag {
-    display: inline-block;
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 4px;
-    margin-bottom: 14px;
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
-  .tag-one { background: rgba(232,255,71,0.12); color: var(--accent); }
-  .tag-many { background: rgba(255,107,53,0.12); color: var(--accent2); }
-  .rel-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .rel-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .cta-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -302,8 +326,8 @@ const styles = `
   @media (max-width: 900px) {
     .hero { padding: 60px 24px 60px; }
     .stats-row { grid-template-columns: 1fr 1fr; }
-    .section, .relations-section { padding-left: 24px; padding-right: 24px; }
-    .rel-grid { grid-template-columns: 1fr; }
+    .section, .cta-section { padding-left: 24px; padding-right: 24px; }
+    .cta-box { padding: 60px 32px; }
     .footer { padding: 24px; flex-direction: column; gap: 12px; }
   }
 `;
@@ -431,31 +455,28 @@ const Home = () => (
             </div>
         </section>
 
-        <section className="relations-section">
-            <div className="section-label">Архитектура данных</div>
-            <h2 className="section-title" style={{ marginBottom: 32 }}>Связи в системе</h2>
-            <div className="rel-grid">
-                <div className="rel-card">
-                    <span className="rel-tag tag-one">OneToMany</span>
-                    <div className="rel-title">Бренд → Модели</div>
-                    <div className="rel-desc">Каждый бренд содержит список моделей. Выберите бренд — увидите все его модели.</div>
-                </div>
-                <div className="rel-card">
-                    <span className="rel-tag tag-one">OneToMany</span>
-                    <div className="rel-title">Объявление → Фото</div>
-                    <div className="rel-desc">К каждому объявлению прикреплён набор фотографий — смотрите на странице деталей.</div>
-                </div>
-                <div className="rel-card">
-                    <span className="rel-tag tag-many">ManyToMany</span>
-                    <div className="rel-title">Авто ↔ Характеристики</div>
-                    <div className="rel-desc">Автомобиль может иметь множество характеристик, характеристика — несколько авто.</div>
+        <section className="cta-section">
+            <div className="cta-box">
+                <div className="cta-content">
+                    <h2 className="cta-title">Готовы найти свой автомобиль?</h2>
+                    <p className="cta-subtitle">
+                        Присоединяйтесь к тысячам пользователей, которые уже нашли свой идеальный автомобиль на нашей платформе.
+                    </p>
+                    <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <Link to="/search" className="btn-primary-custom">
+                            Начать поиск
+                        </Link>
+                        <Link to="/advertisements/create" className="btn-secondary-custom">
+                            Разместить объявление
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>
 
         <footer className="footer">
             <div className="footer-logo">ByCar</div>
-            <div className="footer-copy">© 2024 ByCar — платформа для продажи автомобилей</div>
+            <div className="footer-copy">© 2026 ByCar — платформа для продажи автомобилей</div>
         </footer>
     </>
 );

@@ -130,20 +130,20 @@ const MyAds = () => {
                   <span className={`badge-${ad.status === 'ACTIVE' ? 'success' : ad.status === 'PENDING' ? 'warning' : 'muted'}`}>
                     {ad.status}
                   </span>
-                  <div style={{ display: 'flex', gap: 8 }}>
+                  <div className="ad-card-actions">
                     <button
                       className="btn-ghost"
-                      style={{ padding: '4px 12px', fontSize: 12 }}
+                      style={{ padding: '5px 12px', fontSize: 12 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/advertisements/edit/${ad.id}`);
                       }}
                     >
-                      Редактировать
+                      Изменить
                     </button>
                     <button
                       className="btn-danger-ghost"
-                      style={{ padding: '4px 12px', fontSize: 12 }}
+                      style={{ padding: '5px 12px', fontSize: 12 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDelete(ad.id);

@@ -12,7 +12,7 @@ const AdvertisementSearch = () => {
 
   const [filters, setFilters] = useState({ brand: '', maxPrice: '', minPrice: '', minYear: '', maxYear: '' });
   const [page, setPage] = useState(0);
-  const [size] = useState(12);
+  const [size] = useState(9);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
   const [advertisements, setAdvertisements] = useState([]);

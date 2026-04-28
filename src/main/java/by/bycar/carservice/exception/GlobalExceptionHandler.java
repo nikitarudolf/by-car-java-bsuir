@@ -3,6 +3,7 @@ package by.bycar.carservice.exception;
 import by.bycar.carservice.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,6 +52,33 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) {
+        String message = "Невозможно удалить запись, так как она используется в других данных";
+
+        // Проверяем, что это именно foreign key constraint
+        if (ex.getMessage() != null && ex.getMessage().contains("foreign key constraint")) {
+            if (ex.getMessage().contains("features")) {
+                message = "Невозможно удалить характеристику, так как она используется в автомобилях";
+            } else if (ex.getMessage().contains("brands")) {
+                message = "Невозможно удалить бренд, так как у него есть модели";
+            } else if (ex.getMessage().contains("models")) {
+                message = "Невозможно удалить модель, так как она используется в автомобилях";
+            }
+        }
+
+        log.error("409_CONFLICT " + ex.getMessage() + " " + request.getRequestURI());
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                "Conflict",
+                message,
+                request.getRequestURI(),
+                null
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleAllExceptions(Exception ex, HttpServletRequest request) {
@@ -59,7 +87,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal Server Error",
-                ex.getMessage(),
+                "Произошла внутренняя ошибка сервера. Попробуйте позже.",
                 request.getRequestURI(),
                 null
         );

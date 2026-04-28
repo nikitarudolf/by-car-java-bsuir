@@ -229,12 +229,12 @@ INSERT INTO photos (url, order_index, is_main, advertisement_id) VALUES
 
 -- 2. BMW 3 Series (Белая)
 ('https://images.unsplash.com/photo-1734554275379-9600817f5655?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Qk1XJTIwMyUyMFNlcmllcyUyMCglRDAlOTElRDAlQjUlRDAlQkIlRDAlQjAlRDElOEYpfGVufDB8fDB8fHww', 0, true, 2),
-('https://images.unsplash.com/photo-1734554258108-63f09694fe88?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Qk1XJTIwMyUyMFNlcmllcyUyMCglRDAlOTElRDAlQjUlRDAlQkIlRDAlQjAlRDElOEYpfGVufDB8fDB8fHww', 1, true, 2),
-('https://images.unsplash.com/photo-1734554284184-4bcf245250c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 3, true, 2),
+('https://images.unsplash.com/photo-1734554258108-63f09694fe88?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Qk1XJTIwMyUyMFNlcmllcyUyMCglRDAlOTElRDAlQjUlRDAlQkIlRDAlQjAlRDElOEYpfGVufDB8fDB8fHww', 1, false, 2),
+('https://images.unsplash.com/photo-1734554284184-4bcf245250c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 3, false, 2),
 -- 3. Mercedes-Benz C-Class (Серебристый)
 ('https://images.unsplash.com/photo-1664626692098-2e35eb4aa7ca?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWVyY2VkZXMlMjBiZW56JTIwYyUyMGNsYXNzfGVufDB8fDB8fHww', 0, true, 3),
-('https://images.unsplash.com/photo-1686562472684-f305deb11c92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 1, true, 3),
-('https://images.unsplash.com/photo-1664626670384-21fad2ee8610?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 2, true, 3),
+('https://images.unsplash.com/photo-1686562472684-f305deb11c92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 1, false, 3),
+('https://images.unsplash.com/photo-1664626670384-21fad2ee8610?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG1lcmNlZGVzJTIwYmVueiUyMGMlMjBjbGFzc3xlbnwwfHwwfHx8MA%3D%3D', 2, false, 3),
 -- 4. Audi Q5 (Синий SUV)
 ('https://images.unsplash.com/photo-1769641156976-f7a62f61800f?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fC0tJTIwNC4lMjBBdWRpJTIwUTUlMjAoJUQwJUExJUQwJUI4JUQwJUJEJUQwJUI4JUQwJUI5JTIwU1VWKXxlbnwwfHwwfHx8MA%3D%3D', 0, true, 4),
 

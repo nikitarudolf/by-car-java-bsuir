@@ -17,12 +17,11 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     @EntityGraph(attributePaths = {"user", "car", "car.model", "car.features", "car.model.brand"})
     List<Advertisement> findAll();
 
-    @Query("SELECT a FROM Advertisement a "
+    @Query("SELECT DISTINCT a FROM Advertisement a "
             + "JOIN FETCH a.user u "
             + "JOIN FETCH a.car c "
             + "JOIN FETCH c.model m "
             + "JOIN FETCH m.brand b "
-            + "LEFT JOIN FETCH c.features f "
             + "WHERE (:brandName IS NULL OR :brandName = '' OR b.name = :brandName) "
             + "AND (:maxPrice IS NULL OR a.price <= :maxPrice) "
             + "AND (:minPrice IS NULL OR a.price >= :minPrice) "
