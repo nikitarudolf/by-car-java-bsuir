@@ -1,6 +1,7 @@
 package by.bycar.carservice.service;
 
 import by.bycar.carservice.cache.AdvertisementIndex;
+import by.bycar.carservice.concurrency.ViewCounterService;
 import by.bycar.carservice.dto.SearchCriteria;
 import by.bycar.carservice.dto.create.AdvertisementCreateDTO;
 import by.bycar.carservice.dto.response.AdvertisementResponseDTO;
@@ -47,56 +48,36 @@ class AdvertisementServiceTest {
     @Mock
     private AdMapper adMapper;
 
+    @Mock
+    private ViewCounterService viewCounterService;
+
     @InjectMocks
     private AdvertisementService advertisementService;
 
     @Test
-    void getAdvertisements_ShouldReturnFromCache_WhenCacheContainsData() {
+    void getAdvertisements_ShouldQueryDatabaseWithFilters() {
         String brand = "Toyota";
-        Double price = 10000.0;
+        Double minPrice = 9000.0;
+        Double maxPrice = 15000.0;
+        Integer minYear = 2018;
+        Integer maxYear = 2022;
         Pageable pageable = PageRequest.of(0, 10);
-        SearchCriteria key = new SearchCriteria(brand, price, 0, 10);
-        Page<AdvertisementResponseDTO> cachedPage = Page.empty();
-
-        when(advertisementIndex.contains(key)).thenReturn(true);
-        when(advertisementIndex.get(key)).thenReturn(cachedPage);
-
-        Page<AdvertisementResponseDTO> result = advertisementService.getAdvertisements(brand, price, pageable);
-
-        assertNotNull(result);
-        verify(advertisementIndex).contains(key);
-        verify(advertisementIndex).get(key);
-        verify(advertisementRepository, never()).findAllByBrandAndPriceJPQL(any(), any(), any());
-    }
-
-    @Test
-    void getAdvertisements_ShouldQueryDatabase_WhenCacheIsEmpty() {
-        String brand = "Toyota";
-        Double price = 10000.0;
-        Pageable pageable = PageRequest.of(0, 10);
-        SearchCriteria key = new SearchCriteria(brand, price, 0, 10);
         Advertisement ad = new Advertisement();
         ad.setId(1L);
         Page<Advertisement> dbPage = new PageImpl<>(List.of(ad));
-        AdvertisementResponseDTO responseDTO = AdvertisementResponseDTO.builder()
-                .id(1L)
-                .description("Description")
-                .price(10000.0)
-                .sellerName("John")
-                .sellerPhone("+123456")
-                .car(null)
-                .build();
+        AdvertisementResponseDTO responseDTO = AdvertisementResponseDTO.builder().id(1L).build();
 
-        when(advertisementIndex.contains(key)).thenReturn(false);
-        when(advertisementRepository.findAllByBrandAndPriceJPQL(brand, price, pageable)).thenReturn(dbPage);
+        when(advertisementRepository.findAllByFilters(brand, minPrice, maxPrice, minYear, maxYear, pageable)).thenReturn(dbPage);
         when(adMapper.toResponseDTO(ad)).thenReturn(responseDTO);
 
-        Page<AdvertisementResponseDTO> result = advertisementService.getAdvertisements(brand, price, pageable);
+        Page<AdvertisementResponseDTO> result = advertisementService.getAdvertisements(
+                brand, minPrice, maxPrice, minYear, maxYear, pageable
+        );
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        verify(advertisementRepository).findAllByBrandAndPriceJPQL(brand, price, pageable);
-        verify(advertisementIndex).put(eq(key), any());
+        verify(advertisementRepository).findAllByFilters(brand, minPrice, maxPrice, minYear, maxYear, pageable);
+        verify(advertisementIndex, never()).put(any(), any());
     }
 
     @Test
@@ -150,7 +131,34 @@ class AdvertisementServiceTest {
 
     @Test
     void create_ShouldReturnAdvertisementResponseDTO() {
-        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO("Description text", 10000.0, 1L, 1L, 2020, 50000, "VIN12345678901234", List.of(1L, 2L));
+        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO(
+                "Great car",
+                "Description text",
+                10000.0,
+                "Minsk",
+                "Minsk region",
+                "John",
+                true,
+                true,
+                false,
+                1L,
+                1L,
+                2020,
+                50000,
+                "VIN12345678901234",
+                List.of(1L, 2L),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
         Advertisement ad = new Advertisement();
         User user = new User();
         user.setId(1L);
@@ -188,7 +196,34 @@ class AdvertisementServiceTest {
 
     @Test
     void create_ShouldThrowException_WhenUserNotFound() {
-        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO("Description text", 10000.0, 1L, 1L, 2020, 50000, "VIN12345678901234", List.of(1L));
+        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO(
+                "Great car",
+                "Description text",
+                10000.0,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                1L,
+                1L,
+                2020,
+                50000,
+                "VIN12345678901234",
+                List.of(1L),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
         Advertisement ad = new Advertisement();
 
         when(adMapper.toEntity(createDTO)).thenReturn(ad);
@@ -200,7 +235,34 @@ class AdvertisementServiceTest {
 
     @Test
     void create_ShouldThrowException_WhenModelNotFound() {
-        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO("Description text", 10000.0, 1L, 1L, 2020, 50000, "VIN12345678901234", List.of(1L));
+        AdvertisementCreateDTO createDTO = new AdvertisementCreateDTO(
+                "Great car",
+                "Description text",
+                10000.0,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                1L,
+                1L,
+                2020,
+                50000,
+                "VIN12345678901234",
+                List.of(1L),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
         Advertisement ad = new Advertisement();
         User user = new User();
 
@@ -349,6 +411,7 @@ class AdvertisementServiceTest {
         Long id = 1L;
         Advertisement ad = new Advertisement();
         ad.setId(id);
+        ad.setViewsCount(10L);
         AdvertisementResponseDTO responseDTO = AdvertisementResponseDTO.builder()
                 .id(id)
                 .description("Description")
@@ -359,6 +422,7 @@ class AdvertisementServiceTest {
                 .build();
 
         when(advertisementRepository.findById(id)).thenReturn(Optional.of(ad));
+        when(advertisementRepository.save(ad)).thenReturn(ad);
         when(adMapper.toResponseDTO(ad)).thenReturn(responseDTO);
 
         AdvertisementResponseDTO result = advertisementService.findById(id);
@@ -366,6 +430,8 @@ class AdvertisementServiceTest {
         assertNotNull(result);
         assertEquals(id, result.id());
         verify(advertisementRepository).findById(id);
+        verify(advertisementRepository).save(ad);
+        verify(viewCounterService).incrementViewsAtomic(id);
     }
 
     @Test
