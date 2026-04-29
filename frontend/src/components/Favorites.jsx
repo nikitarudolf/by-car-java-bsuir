@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import favoriteService from '../api/favoriteService';
-import { theme } from '../theme';
-
 const Favorites = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -76,7 +74,7 @@ const Favorites = () => {
           </button>
         </div>
       ) : (
-        <div className="ads-grid fade-in">
+        <div className="ads-grid">
           {(Array.isArray(favorites) ? favorites : []).map((favorite) => {
             const ad = favorite.advertisement;
             const car = ad.car;

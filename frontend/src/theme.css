@@ -1,5 +1,4 @@
-export const theme = `
-  :root {
+:root {
     --bg: #0a0a0f;
     --surface: #111118;
     --surface2: #1a1a24;
@@ -251,6 +250,10 @@ export const theme = `
     border-radius: var(--radius); overflow: hidden;
     cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     display: flex; flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+    opacity: 1;
+    visibility: visible;
   }
   .ad-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
   .ad-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
@@ -372,7 +375,14 @@ export const theme = `
   @media (max-width: 900px) { .search-layout { grid-template-columns: 1fr; } }
 
   /* ── ADS GRID ── */
-  .ads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    min-width: 0;
+    width: 100%;
+    opacity: 1;
+  }
 
   /* ── EMPTY STATE ── */
   .empty-state {
@@ -403,7 +413,16 @@ export const theme = `
     padding: 4px 10px; border-radius: 4px;
   }
 
-  /* ── ANIMATIONS ── */
+  /* ── ANIMATIONS ──
+     Не вешайте .fade-in на крупные list/grid-контейнеры: fill-mode "both" даёт opacity:0
+     до старта анимации; при сбое/перемонтировании в проде весь блок может остаться невидимым. */
   .fade-in { animation: fadeUp 0.4s ease forwards; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-`;
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }

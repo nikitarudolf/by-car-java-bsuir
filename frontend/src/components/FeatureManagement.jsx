@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import featureService from '../api/featureService';
-import { theme } from '../theme';
 
 const Modal = ({ show, title, onClose, onSave, loading, children }) => {
   if (!show) return null;

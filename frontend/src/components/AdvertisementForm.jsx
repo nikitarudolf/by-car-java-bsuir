@@ -7,7 +7,6 @@ import modelService from '../api/modelService';
 import featureService from '../api/featureService';
 import userService from '../api/userService';
 import axiosInstance from '../api/axiosConfig';
-import { theme } from '../theme';
 
 const AdvertisementForm = () => {
   const navigate = useNavigate();

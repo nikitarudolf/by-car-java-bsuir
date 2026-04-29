@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import advertisementService from '../api/advertisementService';
-import { theme } from '../theme';
 
 const AdvertisementList = () => {
   const navigate = useNavigate();
@@ -120,7 +119,7 @@ const AdvertisementList = () => {
         </div>
       ) : (
         <>
-          <div className="ads-grid fade-in">
+          <div className="ads-grid">
             {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
               const car = ad.car || {};
               const model = car.model || {};

@@ -4,8 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
 import brandService from '../api/brandService';
 import favoriteService from '../api/favoriteService';
-import { theme } from '../theme';
-
 const AdvertisementSearch = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -215,7 +213,7 @@ const AdvertisementSearch = () => {
 
           {!loading && advertisements.length > 0 && (
             <>
-              <div className="ads-grid fade-in">
+              <div className="ads-grid">
                 {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
                   const car = ad.car || {};
                   const model = car.model || {};

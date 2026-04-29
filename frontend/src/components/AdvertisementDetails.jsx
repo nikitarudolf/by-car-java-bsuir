@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
 import photoService from '../api/photoService';
 import favoriteService from '../api/favoriteService';
-import { theme } from '../theme';
 
 const AdvertisementDetails = () => {
   const { id } = useParams();

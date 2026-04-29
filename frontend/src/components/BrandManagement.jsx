@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import brandService from '../api/brandService';
 import modelService from '../api/modelService';
-import { theme } from '../theme';
 
 const Modal = ({ show, title, onClose, onSave, loading, children }) => {
   if (!show) return null;

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
-import { theme } from '../theme';
-
 const MyAds = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -104,7 +102,7 @@ const MyAds = () => {
           </button>
         </div>
       ) : (
-        <div className="ads-grid fade-in">
+        <div className="ads-grid">
           {filteredAds.map(ad => {
             const car = ad.car || {};
             const model = car.model || {};
