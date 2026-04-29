@@ -32,11 +32,12 @@ const AdvertisementForm = () => {
   const [models, setModels] = useState([]);
   const [allModels, setAllModels] = useState([]);
   const [features, setFeatures] = useState([]);
+  const [featureSearch, setFeatureSearch] = useState('');
 
   const [formData, setFormData] = useState({
     userId: currentUser?.id || null, brandId: '', modelId: '',
     year: new Date().getFullYear(), mileage: 0, vin: '',
-    title: '', description: '', price: 0,
+    description: '', price: 0,
     city: '', region: '', contactName: '',
     showPhone: true, negotiable: false, exchangePossible: false,
     featureIds: [],
@@ -79,7 +80,7 @@ const AdvertisementForm = () => {
         year: ad.car?.year || new Date().getFullYear(),
         mileage: ad.car?.mileage || 0,
         vin: ad.car?.vin || '',
-        title: ad.title || '', description: ad.description || '',
+        description: ad.description || '',
         price: ad.price || 0,
         featureIds: ad.car?.features?.map(f => f.id) || [],
         city: ad.city || '', region: ad.region || '', contactName: ad.contactName || '',
@@ -183,7 +184,6 @@ const AdvertisementForm = () => {
     if (!formData.vin || formData.vin.length !== 17) { setError('VIN — ровно 17 символов'); return false; }
     if (formData.year < 1900 || formData.year > 2026) { setError('Год: 1900–2026'); return false; }
     if (formData.mileage < 0) { setError('Пробег не может быть отрицательным'); return false; }
-    if (!formData.title || formData.title.length < 5) { setError('Заголовок — минимум 5 символов'); return false; }
     if (!formData.description || formData.description.length < 10) { setError('Описание — минимум 10 символов'); return false; }
     if (formData.price <= 0) { setError('Цена должна быть больше нуля'); return false; }
     return true;
@@ -409,17 +409,33 @@ const AdvertisementForm = () => {
               <span className="badge-muted">Выбрано: {formData.featureIds.length}</span>
             </div>
             <div className="dark-card-body">
-              <div className="feature-chips">
-                {features.map(f => (
-                  <span
-                    key={f.id}
-                    className={`feature-chip${formData.featureIds.includes(f.id) ? ' selected' : ''}`}
-                    onClick={() => handleFeatureToggle(f.id)}
-                  >
-                    {f.name}
-                  </span>
-                ))}
+              <div className="dark-form-group" style={{ marginBottom: 16 }}>
+                <input
+                  type="text"
+                  className="dark-input"
+                  placeholder="🔍 Поиск характеристик..."
+                  value={featureSearch}
+                  onChange={(e) => setFeatureSearch(e.target.value)}
+                />
               </div>
+              <div className="feature-chips">
+                {features
+                  .filter(f => f.name.toLowerCase().includes(featureSearch.toLowerCase()))
+                  .map(f => (
+                    <span
+                      key={f.id}
+                      className={`feature-chip${formData.featureIds.includes(f.id) ? ' selected' : ''}`}
+                      onClick={() => handleFeatureToggle(f.id)}
+                    >
+                      {f.name}
+                    </span>
+                  ))}
+              </div>
+              {featureSearch && features.filter(f => f.name.toLowerCase().includes(featureSearch.toLowerCase())).length === 0 && (
+                <div style={{ textAlign: 'center', padding: '20px', color: 'var(--muted)' }}>
+                  Ничего не найдено
+                </div>
+              )}
             </div>
           </div>
         )}
