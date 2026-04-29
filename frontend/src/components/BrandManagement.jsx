@@ -44,18 +44,23 @@ const BrandManagement = () => {
   const loadBrands = async () => {
     try {
       setLoading(true);
-      setBrands(await brandService.getAll());
+      const data = await brandService.getAll();
+      setBrands(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }
   };
 
   const loadModels = async () => {
-    try { setModels(await modelService.getAll()); }
+    try {
+      const data = await modelService.getAll();
+      setModels(Array.isArray(data) ? data : []);
+    }
     catch (err) { console.error(err); }
   };
 
-  const getModelsForBrand = (bid) => models.filter(m => m.brand && m.brand.id === bid);
+  const getModelsForBrand = (bid) =>
+    (Array.isArray(models) ? models : []).filter(m => m.brand && m.brand.id === bid);
 
   const handleSaveBrand = async () => {
     if (!brandName.trim()) { setError('Название не может быть пустым'); return; }
@@ -101,6 +106,7 @@ const BrandManagement = () => {
     finally { setLoading(false); }
   };
 
+  const safeBrands = Array.isArray(brands) ? brands : [];
   const brandModels = selectedBrand ? getModelsForBrand(selectedBrand.id) : [];
 
   return (
@@ -125,9 +131,9 @@ const BrandManagement = () => {
             </button>
           </div>
           <div>
-            {loading && brands.length === 0 ? (
+            {loading && safeBrands.length === 0 ? (
               <div className="dark-spinner" style={{ padding: 40 }}><div className="spinner-ring" /></div>
-            ) : brands.length === 0 ? (
+            ) : safeBrands.length === 0 ? (
               <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)', fontSize: 13 }}>Нет брендов</div>
             ) : (
               <table className="dark-table">
@@ -140,7 +146,7 @@ const BrandManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {brands.map(b => (
+                  {safeBrands.map(b => (
                     <tr
                       key={b.id}
                       className={`row-clickable${selectedBrand?.id === b.id ? ' row-active' : ''}`}
