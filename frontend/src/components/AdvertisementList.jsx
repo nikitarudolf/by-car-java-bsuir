@@ -24,22 +24,17 @@ const AdvertisementList = () => {
       const response = await advertisementService.search(params);
 
       console.log('Response from API:', response);
-      console.log('Has content?', response.content);
-      console.log('Is array?', Array.isArray(response));
 
       if (response.content) {
         setAdvertisements(response.content);
         setTotalPages(response.totalPages);
         setTotalElements(response.totalElements);
       } else {
-        // Fallback: если пришел массив напрямую
         setAdvertisements(Array.isArray(response) ? response : []);
-        setTotalPages(1);
-        setTotalElements(Array.isArray(response) ? response.length : 0);
       }
       setError(null);
     } catch (err) {
-      setError('Ошибка загрузки объявлений: ' + err.message);
+      setError('Ошибка загрузки: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -79,6 +74,8 @@ const AdvertisementList = () => {
       </div>
     );
   };
+
+  console.log('=== Render ===', 'ads:', advertisements.length, 'loading:', loading);
 
   if (loading) return (
     <>
