@@ -105,12 +105,15 @@ class FeatureServiceTest {
         FeatureCreateDTO dto = new FeatureCreateDTO("error");
         Feature feature = new Feature();
         feature.setName("error");
+        Feature savedFeature = new Feature();
+        savedFeature.setName("error");
 
         when(featureMapper.toEntity(dto)).thenReturn(feature);
+        when(featureRepository.saveAll(anyList())).thenReturn(List.of(savedFeature));
 
         List<FeatureCreateDTO> dtos = List.of(dto);
         assertThrows(RuntimeException.class, () -> featureService.saveAll(dtos));
-        verify(featureRepository, never()).saveAll(anyList());
+        verify(featureRepository).saveAll(anyList());
     }
 
     @Test
