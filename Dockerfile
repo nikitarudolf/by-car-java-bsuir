@@ -16,6 +16,8 @@ WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
+RUN mkdir -p /app/logs && chown -R spring:spring /app/logs
+
 COPY --from=extract /app/dependencies/ ./
 COPY --from=extract /app/spring-boot-loader/ ./
 COPY --from=extract /app/snapshot-dependencies/ ./
