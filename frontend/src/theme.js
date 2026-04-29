@@ -253,19 +253,27 @@ export const theme = `
     display: flex; flex-direction: column;
   }
   .ad-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-  .ad-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+  .ad-card-body {
+    padding: 20px;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: min-content;
+  }
   .ad-card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .ad-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
   .ad-card-desc {
     font-size: 13px; color: var(--muted); line-height: 1.55;
     overflow: hidden; display: -webkit-box;
     -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    margin-bottom: 12px; flex: 1;
+    margin-bottom: 12px;
+    flex: 0 1 auto;
+    min-height: 0;
   }
   .ad-card-price {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 28px; letter-spacing: 1px; color: var(--accent);
-    margin-top: auto;
+    margin-top: 0;
   }
   .ad-card-footer {
     padding: 12px 20px; border-top: 1px solid var(--border);
