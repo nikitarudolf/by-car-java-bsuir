@@ -1,7 +1,23 @@
 import axios from 'axios';
 
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const normalizeApiBaseUrl = (rawUrl) => {
+  if (!rawUrl) return '/api';
+  let value = String(rawUrl).trim();
+  if (!value) return '/api';
+
+  if (!value.startsWith('http://') && !value.startsWith('https://') && !value.startsWith('/')) {
+    value = `https://${value}`;
+  }
+
+  if (value.length > 1 && value.endsWith('/')) {
+    value = value.slice(0, -1);
+  }
+
+  return value;
+};
+
+const API_BASE_URL = normalizeApiBaseUrl(process.env.REACT_APP_API_URL);
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -25,7 +41,18 @@ axiosInstance.interceptors.request.use(
 
 // Response interceptor for handling errors globally
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const contentType = response?.headers?.['content-type'] || '';
+    const isHtmlResponse = typeof response.data === 'string' && response.data.toLowerCase().includes('<html');
+
+    if (isHtmlResponse || (contentType.includes('text/html') && response.config?.url?.startsWith('/'))) {
+      return Promise.reject(
+        new Error('API вернул HTML вместо JSON. Проверьте REACT_APP_API_URL в Railway.')
+      );
+    }
+
+    return response;
+  },
   (error) => {
     if (error.response) {
       const errorMessage = error.response.data?.message || error.response.data?.error || 'Произошла ошибка на сервере';

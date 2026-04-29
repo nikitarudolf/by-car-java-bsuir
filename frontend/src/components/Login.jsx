@@ -23,7 +23,7 @@ const Login = () => {
     try {
       setLoading(true);
       const data = await userService.getAll();
-      setUsers(data);
+      setUsers(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
       setError('Ошибка загрузки пользователей: ' + err.message);
@@ -72,16 +72,16 @@ const Login = () => {
         <div className="dark-card">
           <div className="dark-card-header">
             <h5>Выберите пользователя</h5>
-            <span className="badge-muted">{users.length} пользователей</span>
+            <span className="badge-muted">{(Array.isArray(users) ? users : []).length} пользователей</span>
           </div>
           <div className="dark-card-body" style={{ padding: 0 }}>
-            {users.length === 0 ? (
+            {(Array.isArray(users) ? users : []).length === 0 ? (
               <div style={{ padding: 32, textAlign: 'center', color: 'var(--muted)' }}>
                 Нет доступных пользователей
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {users.map((user, index) => (
+                {(Array.isArray(users) ? users : []).map((user, index) => (
                   <button
                     key={user.id}
                     onClick={() => handleUserSelect(user.id)}

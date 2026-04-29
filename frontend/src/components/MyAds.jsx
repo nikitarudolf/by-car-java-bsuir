@@ -24,7 +24,7 @@ const MyAds = () => {
     try {
       setLoading(true);
       const data = await advertisementService.getByUserId(currentUser.id);
-      setAdvertisements(data);
+      setAdvertisements(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
       setError('Ошибка загрузки: ' + err.message);
@@ -43,9 +43,10 @@ const MyAds = () => {
     }
   };
 
+  const safeAdvertisements = Array.isArray(advertisements) ? advertisements : [];
   const filteredAds = statusFilter === 'ALL'
-    ? advertisements
-    : advertisements.filter(ad => ad.status === statusFilter);
+    ? safeAdvertisements
+    : safeAdvertisements.filter(ad => ad.status === statusFilter);
 
   if (loading) {
     return (
@@ -64,7 +65,7 @@ const MyAds = () => {
       <style>{theme}</style>
 
       <div className="page-header fade-in">
-        <h1 className="page-title">Мои объявления<span> ({advertisements.length})</span></h1>
+        <h1 className="page-title">Мои объявления<span> ({safeAdvertisements.length})</span></h1>
         <button className="btn-accent" onClick={() => navigate('/advertisements/create')}>
           + Создать объявление
         </button>

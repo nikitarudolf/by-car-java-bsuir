@@ -115,7 +115,7 @@ const AdvertisementList = () => {
         </div>
       )}
 
-      {advertisements.length === 0 ? (
+      {(Array.isArray(advertisements) ? advertisements : []).length === 0 ? (
         <div className="empty-state fade-in">
           <div className="empty-state-icon">🚗</div>
           <div className="empty-state-text">Нет объявлений</div>
@@ -126,7 +126,7 @@ const AdvertisementList = () => {
       ) : (
         <>
           <div className="ads-grid fade-in">
-            {advertisements.map(ad => {
+            {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
               const car = ad.car || {};
               const model = car.model || {};
               const brand = model.brand || {};
