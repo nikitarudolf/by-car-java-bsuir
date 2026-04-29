@@ -38,7 +38,8 @@ const FeatureManagement = () => {
   const loadFeatures = async () => {
     try {
       setLoading(true);
-      setFeatures(await featureService.getAll());
+      const data = await featureService.getAll();
+      setFeatures(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }
@@ -67,7 +68,9 @@ const FeatureManagement = () => {
     finally { setLoading(false); }
   };
 
-  const filtered = features.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = (Array.isArray(features) ? features : []).filter(
+    f => (f?.name || '').toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
