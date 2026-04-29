@@ -14,6 +14,11 @@ const normalizeApiBaseUrl = (rawUrl) => {
     value = value.slice(0, -1);
   }
 
+  // Добавляем /api если его нет
+  if (!value.endsWith('/api')) {
+    value = `${value}/api`;
+  }
+
   return value;
 };
 
