@@ -232,14 +232,12 @@ const AdvertisementForm = () => {
 
   if (loading && isEditMode) return (
     <>
-      <style>{theme}</style>
       <div className="dark-spinner"><div className="spinner-ring" /><span className="spinner-text">Загрузка...</span></div>
     </>
   );
 
   return (
     <>
-      <style>{theme}</style>
 
       <div style={{ marginBottom: 28 }}>
         <button className="btn-back" onClick={() => navigate('/advertisements')}>← Назад к объявлениям</button>

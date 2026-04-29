@@ -44,7 +44,6 @@ const Login = () => {
   if (loading) {
     return (
       <>
-        <style>{theme}</style>
         <div className="dark-spinner">
           <div className="spinner-ring" />
           <span className="spinner-text">Загрузка...</span>
@@ -55,7 +54,6 @@ const Login = () => {
 
   return (
     <>
-      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Вход в <span>систему</span></h1>

@@ -74,7 +74,6 @@ const FeatureManagement = () => {
 
   return (
     <>
-      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Харак<span>теристики</span></h1>

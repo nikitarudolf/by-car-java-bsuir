@@ -111,7 +111,6 @@ const BrandManagement = () => {
 
   return (
     <>
-      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Бренды <span>&amp; Модели</span></h1>

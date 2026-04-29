@@ -134,7 +134,6 @@ const AdvertisementSearch = () => {
 
   return (
     <>
-      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Поиск<span> авто</span></h1>
