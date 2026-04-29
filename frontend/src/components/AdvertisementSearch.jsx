@@ -39,7 +39,7 @@ const AdvertisementSearch = () => {
   const loadBrands = async () => {
     try {
       const data = await brandService.getAll();
-      setBrands(data);
+      setBrands(Array.isArray(data) ? data : []);
     } catch (err) { console.error(err); }
   };
 
@@ -55,7 +55,7 @@ const AdvertisementSearch = () => {
       if (filters.maxYear) params.maxYear = parseInt(filters.maxYear);
       const response = await advertisementService.search(params);
       if (response.content) {
-        setAdvertisements(response.content);
+        setAdvertisements(Array.isArray(response.content) ? response.content : []);
         setTotalPages(response.totalPages);
         setTotalElements(response.totalElements);
       } else {
@@ -152,7 +152,7 @@ const AdvertisementSearch = () => {
             <label className="dark-label">Бренд</label>
             <select name="brand" value={filters.brand} onChange={handleFilterChange} className="dark-select">
               <option value="">Все бренды</option>
-              {brands.map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
+              {(Array.isArray(brands) ? brands : []).map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
             </select>
           </div>
 
@@ -217,7 +217,7 @@ const AdvertisementSearch = () => {
           {!loading && advertisements.length > 0 && (
             <>
               <div className="ads-grid fade-in">
-                {advertisements.map(ad => {
+                {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
                   const car = ad.car || {};
                   const model = car.model || {};
                   const brand = model.brand || {};
