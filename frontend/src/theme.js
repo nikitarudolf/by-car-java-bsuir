@@ -245,24 +245,24 @@ export const theme = `
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes modalUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ── AD CARD ── */
-  .ad-card {
+  /* ── LISTING CARD (avoid ad-card / ads-grid: ad blockers) ── */
+  .vehicle-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
     cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     display: flex; flex-direction: column;
   }
-  .ad-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-  .ad-card-body {
+  .vehicle-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .vehicle-card-body {
     padding: 20px;
     flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     min-height: min-content;
   }
-  .ad-card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .ad-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  .ad-card-desc {
+  .vehicle-card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .vehicle-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .vehicle-card-desc {
     font-size: 13px; color: var(--muted); line-height: 1.55;
     overflow: hidden; display: -webkit-box;
     -webkit-line-clamp: 2; -webkit-box-orient: vertical;
@@ -270,17 +270,17 @@ export const theme = `
     flex: 0 1 auto;
     min-height: 0;
   }
-  .ad-card-price {
+  .vehicle-card-price {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 28px; letter-spacing: 1px; color: var(--accent);
     margin-top: 0;
   }
-  .ad-card-footer {
+  .vehicle-card-footer {
     padding: 12px 20px; border-top: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
   }
-  .ad-card-seller { font-size: 12px; color: var(--muted); }
-  .ad-card-actions { display: flex; gap: 8px; }
+  .vehicle-card-seller { font-size: 12px; color: var(--muted); }
+  .vehicle-card-actions { display: flex; gap: 8px; }
 
   /* ── SPEC TABLE (details page) ── */
   .spec-table { width: 100%; border-collapse: collapse; }
@@ -379,8 +379,8 @@ export const theme = `
   .search-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
   @media (max-width: 900px) { .search-layout { grid-template-columns: 1fr; } }
 
-  /* ── ADS GRID ── */
-  .ads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  /* ── LISTINGS GRID ── */
+  .vehicle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 
   /* ── EMPTY STATE ── */
   .empty-state {

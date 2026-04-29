@@ -213,7 +213,7 @@ const AdvertisementSearch = () => {
 
           {!loading && advertisements.length > 0 && (
             <>
-              <div className="ads-grid">
+              <div className="vehicle-grid">
                 {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
                   const car = ad.car || {};
                   const model = car.model || {};
@@ -221,21 +221,21 @@ const AdvertisementSearch = () => {
                   const features = car.features || [];
 
                   return (
-                    <div key={ad.id} className="ad-card">
-                      <div className="ad-card-body" onClick={() => navigate(`/advertisements/${ad.id}`)}>
-                        <div className="ad-card-title">{brand.name} {model.name}</div>
-                        <div className="ad-card-sub">{car.year} · {car.mileage?.toLocaleString()} км</div>
-                        <div className="ad-card-desc">{ad.description}</div>
+                    <div key={ad.id} className="vehicle-card">
+                      <div className="vehicle-card-body" onClick={() => navigate(`/advertisements/${ad.id}`)}>
+                        <div className="vehicle-card-title">{brand.name} {model.name}</div>
+                        <div className="vehicle-card-sub">{car.year} · {car.mileage?.toLocaleString()} км</div>
+                        <div className="vehicle-card-desc">{ad.description}</div>
                         {features.length > 0 && (
                           <div className="feature-chips" style={{ marginBottom: 12 }}>
                             {features.slice(0, 2).map(f => <span key={f.id} className="feature-chip">{f.name}</span>)}
                             {features.length > 2 && <span className="feature-chip">+{features.length - 2}</span>}
                           </div>
                         )}
-                        <div className="ad-card-price">${ad.price?.toLocaleString()}</div>
+                        <div className="vehicle-card-price">${ad.price?.toLocaleString()}</div>
                       </div>
-                      <div className="ad-card-footer">
-                        <span className="ad-card-seller">{ad.sellerName}</span>
+                      <div className="vehicle-card-footer">
+                        <span className="vehicle-card-seller">{ad.sellerName}</span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <span className="badge-success">{ad.status}</span>
                           <button

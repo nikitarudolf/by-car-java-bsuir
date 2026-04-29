@@ -119,7 +119,7 @@ const AdvertisementList = () => {
         </div>
       ) : (
         <>
-          <div className="ads-grid">
+          <div className="vehicle-grid">
             {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
               const car = ad.car || {};
               const model = car.model || {};
@@ -129,13 +129,13 @@ const AdvertisementList = () => {
               return (
                 <div
                   key={ad.id}
-                  className="ad-card"
+                  className="vehicle-card"
                   onClick={() => navigate(`/advertisements/${ad.id}`)}
                 >
-                  <div className="ad-card-body">
-                    <div className="ad-card-title">{brand.name} {model.name}</div>
-                    <div className="ad-card-sub">{car.year} · {car.mileage?.toLocaleString()} км</div>
-                    <div className="ad-card-desc">{ad.description}</div>
+                  <div className="vehicle-card-body">
+                    <div className="vehicle-card-title">{brand.name} {model.name}</div>
+                    <div className="vehicle-card-sub">{car.year} · {car.mileage?.toLocaleString()} км</div>
+                    <div className="vehicle-card-desc">{ad.description}</div>
 
                     {features.length > 0 && (
                       <div className="feature-chips" style={{ marginBottom: 12 }}>
@@ -148,11 +148,11 @@ const AdvertisementList = () => {
                       </div>
                     )}
 
-                    <div className="ad-card-price">${ad.price?.toLocaleString()}</div>
+                    <div className="vehicle-card-price">${ad.price?.toLocaleString()}</div>
                   </div>
-                  <div className="ad-card-footer">
-                    <span className="ad-card-seller">{ad.sellerName}</span>
-                    <div className="ad-card-actions" onClick={e => e.stopPropagation()}>
+                  <div className="vehicle-card-footer">
+                    <span className="vehicle-card-seller">{ad.sellerName}</span>
+                    <div className="vehicle-card-actions" onClick={e => e.stopPropagation()}>
                       <button
                         className="btn-ghost"
                         style={{ padding: '5px 12px', fontSize: 12 }}
