@@ -31,7 +31,6 @@ docker-compose up --build
 - **Backend API**: http://localhost:8080/api
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
 
-### Остановка
 
 ```bash
 docker-compose down
