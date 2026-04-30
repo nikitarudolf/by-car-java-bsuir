@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { theme } from '../theme';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Profile = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Мой <span>профиль</span></h1>

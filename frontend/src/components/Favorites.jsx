@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import favoriteService from '../api/favoriteService';
+import { theme } from '../theme';
+
 const Favorites = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -22,7 +24,7 @@ const Favorites = () => {
     try {
       setLoading(true);
       const data = await favoriteService.getUserFavorites(currentUser.id);
-      setFavorites(Array.isArray(data) ? data : []);
+      setFavorites(data);
       setError(null);
     } catch (err) {
       setError('Ошибка загрузки: ' + err.message);
@@ -34,7 +36,7 @@ const Favorites = () => {
   const handleRemove = async (advertisementId) => {
     try {
       await favoriteService.removeFromFavorites(currentUser.id, advertisementId);
-      setFavorites(prev => (Array.isArray(prev) ? prev : []).filter(f => f.advertisement.id !== advertisementId));
+      setFavorites(prev => prev.filter(f => f.advertisement.id !== advertisementId));
     } catch (err) {
       setError('Ошибка удаления: ' + err.message);
     }
@@ -43,6 +45,7 @@ const Favorites = () => {
   if (loading) {
     return (
       <>
+        <style>{theme}</style>
         <div className="dark-spinner">
           <div className="spinner-ring" />
           <span className="spinner-text">Загрузка...</span>
@@ -53,9 +56,10 @@ const Favorites = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
-        <h1 className="page-title">Избранное<span> ({(Array.isArray(favorites) ? favorites : []).length})</span></h1>
+        <h1 className="page-title">Избранное<span> ({favorites.length})</span></h1>
       </div>
 
       {error && (
@@ -65,7 +69,7 @@ const Favorites = () => {
         </div>
       )}
 
-      {(Array.isArray(favorites) ? favorites : []).length === 0 ? (
+      {favorites.length === 0 ? (
         <div className="empty-state fade-in">
           <div className="empty-state-icon">❤️</div>
           <div className="empty-state-text">У вас пока нет избранных объявлений</div>
@@ -74,8 +78,8 @@ const Favorites = () => {
           </button>
         </div>
       ) : (
-        <div className="vehicle-grid">
-          {(Array.isArray(favorites) ? favorites : []).map((favorite) => {
+        <div className="vehicle-grid fade-in">
+          {favorites.map((favorite) => {
             const ad = favorite.advertisement;
             const car = ad.car;
             const model = car.model;

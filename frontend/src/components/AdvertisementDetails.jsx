@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
 import photoService from '../api/photoService';
 import favoriteService from '../api/favoriteService';
+import { theme } from '../theme';
 
 const AdvertisementDetails = () => {
   const { id } = useParams();
@@ -88,12 +89,14 @@ const AdvertisementDetails = () => {
 
   if (loading) return (
     <>
+      <style>{theme}</style>
       <div className="dark-spinner"><div className="spinner-ring" /><span className="spinner-text">Загрузка...</span></div>
     </>
   );
 
   if (error) return (
     <>
+      <style>{theme}</style>
       <div className="dark-alert dark-alert-danger">{error}</div>
       <button className="btn-ghost" onClick={() => navigate('/advertisements')}>← Назад</button>
     </>
@@ -101,6 +104,7 @@ const AdvertisementDetails = () => {
 
   if (!advertisement) return (
     <>
+      <style>{theme}</style>
       <div className="dark-alert dark-alert-info">Объявление не найдено</div>
       <button className="btn-ghost" onClick={() => navigate('/advertisements')}>← Назад</button>
     </>
@@ -160,6 +164,7 @@ const AdvertisementDetails = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div style={{ marginBottom: 28 }} className="fade-in">
         <button className="btn-back" onClick={() => navigate('/advertisements')}>

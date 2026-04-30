@@ -245,7 +245,7 @@ export const theme = `
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes modalUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ── LISTING CARD (avoid ad-card / ads-grid: ad blockers) ── */
+  /* ── LISTING CARD (не ad-card / ads-grid — блокировщики рекламы) ── */
   .vehicle-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
@@ -253,27 +253,19 @@ export const theme = `
     display: flex; flex-direction: column;
   }
   .vehicle-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-  .vehicle-card-body {
-    padding: 20px;
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: min-content;
-  }
+  .vehicle-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
   .vehicle-card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .vehicle-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
   .vehicle-card-desc {
     font-size: 13px; color: var(--muted); line-height: 1.55;
     overflow: hidden; display: -webkit-box;
     -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    margin-bottom: 12px;
-    flex: 0 1 auto;
-    min-height: 0;
+    margin-bottom: 12px; flex: 1;
   }
   .vehicle-card-price {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 28px; letter-spacing: 1px; color: var(--accent);
-    margin-top: 0;
+    margin-top: auto;
   }
   .vehicle-card-footer {
     padding: 12px 20px; border-top: 1px solid var(--border);
@@ -379,7 +371,7 @@ export const theme = `
   .search-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
   @media (max-width: 900px) { .search-layout { grid-template-columns: 1fr; } }
 
-  /* ── LISTINGS GRID ── */
+  /* ── ADS GRID ── */
   .vehicle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 
   /* ── EMPTY STATE ── */
@@ -412,6 +404,6 @@ export const theme = `
   }
 
   /* ── ANIMATIONS ── */
-  .fade-in { animation: fadeUp 0.4s ease forwards; }
+  .fade-in { animation: fadeUp 0.4s ease both; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import advertisementService from '../api/advertisementService';
+import { theme } from '../theme';
 
 const AdvertisementList = () => {
   const navigate = useNavigate();
@@ -23,17 +24,22 @@ const AdvertisementList = () => {
       const response = await advertisementService.search(params);
 
       console.log('Response from API:', response);
+      console.log('Has content?', response.content);
+      console.log('Is array?', Array.isArray(response));
 
       if (response.content) {
         setAdvertisements(response.content);
         setTotalPages(response.totalPages);
         setTotalElements(response.totalElements);
       } else {
+        // Fallback: если пришел массив напрямую
         setAdvertisements(Array.isArray(response) ? response : []);
+        setTotalPages(1);
+        setTotalElements(Array.isArray(response) ? response.length : 0);
       }
       setError(null);
     } catch (err) {
-      setError('Ошибка загрузки: ' + err.message);
+      setError('Ошибка загрузки объявлений: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -74,10 +80,9 @@ const AdvertisementList = () => {
     );
   };
 
-  console.log('=== Render ===', 'ads:', advertisements.length, 'loading:', loading);
-
   if (loading) return (
     <>
+      <style>{theme}</style>
       <div className="dark-spinner">
         <div className="spinner-ring" />
         <span className="spinner-text">Загрузка объявлений...</span>
@@ -87,6 +92,7 @@ const AdvertisementList = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Объяв<span>ления</span></h1>
@@ -109,7 +115,7 @@ const AdvertisementList = () => {
         </div>
       )}
 
-      {(Array.isArray(advertisements) ? advertisements : []).length === 0 ? (
+      {advertisements.length === 0 ? (
         <div className="empty-state fade-in">
           <div className="empty-state-icon">🚗</div>
           <div className="empty-state-text">Нет объявлений</div>
@@ -119,8 +125,8 @@ const AdvertisementList = () => {
         </div>
       ) : (
         <>
-          <div className="vehicle-grid">
-            {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
+          <div className="vehicle-grid fade-in">
+            {advertisements.map(ad => {
               const car = ad.car || {};
               const model = car.model || {};
               const brand = model.brand || {};

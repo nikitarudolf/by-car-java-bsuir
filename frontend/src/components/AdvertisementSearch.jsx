@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
 import brandService from '../api/brandService';
 import favoriteService from '../api/favoriteService';
+import { theme } from '../theme';
+
 const AdvertisementSearch = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -37,7 +39,7 @@ const AdvertisementSearch = () => {
   const loadBrands = async () => {
     try {
       const data = await brandService.getAll();
-      setBrands(Array.isArray(data) ? data : []);
+      setBrands(data);
     } catch (err) { console.error(err); }
   };
 
@@ -53,7 +55,7 @@ const AdvertisementSearch = () => {
       if (filters.maxYear) params.maxYear = parseInt(filters.maxYear);
       const response = await advertisementService.search(params);
       if (response.content) {
-        setAdvertisements(Array.isArray(response.content) ? response.content : []);
+        setAdvertisements(response.content);
         setTotalPages(response.totalPages);
         setTotalElements(response.totalElements);
       } else {
@@ -132,6 +134,7 @@ const AdvertisementSearch = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Поиск<span> авто</span></h1>
@@ -149,7 +152,7 @@ const AdvertisementSearch = () => {
             <label className="dark-label">Бренд</label>
             <select name="brand" value={filters.brand} onChange={handleFilterChange} className="dark-select">
               <option value="">Все бренды</option>
-              {(Array.isArray(brands) ? brands : []).map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
+              {brands.map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
             </select>
           </div>
 
@@ -213,8 +216,8 @@ const AdvertisementSearch = () => {
 
           {!loading && advertisements.length > 0 && (
             <>
-              <div className="vehicle-grid">
-                {(Array.isArray(advertisements) ? advertisements : []).map(ad => {
+              <div className="vehicle-grid fade-in">
+                {advertisements.map(ad => {
                   const car = ad.car || {};
                   const model = car.model || {};
                   const brand = model.brand || {};

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import advertisementService from '../api/advertisementService';
+import { theme } from '../theme';
+
 const MyAds = () => {
   const navigate = useNavigate();
   const { currentUser, isAuthenticated } = useAuth();
@@ -22,7 +24,7 @@ const MyAds = () => {
     try {
       setLoading(true);
       const data = await advertisementService.getByUserId(currentUser.id);
-      setAdvertisements(Array.isArray(data) ? data : []);
+      setAdvertisements(data);
       setError(null);
     } catch (err) {
       setError('Ошибка загрузки: ' + err.message);
@@ -41,14 +43,14 @@ const MyAds = () => {
     }
   };
 
-  const safeAdvertisements = Array.isArray(advertisements) ? advertisements : [];
   const filteredAds = statusFilter === 'ALL'
-    ? safeAdvertisements
-    : safeAdvertisements.filter(ad => ad.status === statusFilter);
+    ? advertisements
+    : advertisements.filter(ad => ad.status === statusFilter);
 
   if (loading) {
     return (
       <>
+        <style>{theme}</style>
         <div className="dark-spinner">
           <div className="spinner-ring" />
           <span className="spinner-text">Загрузка...</span>
@@ -59,9 +61,10 @@ const MyAds = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
-        <h1 className="page-title">Мои объявления<span> ({safeAdvertisements.length})</span></h1>
+        <h1 className="page-title">Мои объявления<span> ({advertisements.length})</span></h1>
         <button className="btn-accent" onClick={() => navigate('/advertisements/create')}>
           + Создать объявление
         </button>
@@ -102,7 +105,7 @@ const MyAds = () => {
           </button>
         </div>
       ) : (
-        <div className="vehicle-grid">
+        <div className="vehicle-grid fade-in">
           {filteredAds.map(ad => {
             const car = ad.car || {};
             const model = car.model || {};

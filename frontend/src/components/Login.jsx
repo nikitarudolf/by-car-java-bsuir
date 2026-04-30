@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import userService from '../api/userService';
+import { theme } from '../theme';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Login = () => {
     try {
       setLoading(true);
       const data = await userService.getAll();
-      setUsers(Array.isArray(data) ? data : []);
+      setUsers(data);
       setError(null);
     } catch (err) {
       setError('Ошибка загрузки пользователей: ' + err.message);
@@ -43,6 +44,7 @@ const Login = () => {
   if (loading) {
     return (
       <>
+        <style>{theme}</style>
         <div className="dark-spinner">
           <div className="spinner-ring" />
           <span className="spinner-text">Загрузка...</span>
@@ -53,6 +55,7 @@ const Login = () => {
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Вход в <span>систему</span></h1>
@@ -69,16 +72,16 @@ const Login = () => {
         <div className="dark-card">
           <div className="dark-card-header">
             <h5>Выберите пользователя</h5>
-            <span className="badge-muted">{(Array.isArray(users) ? users : []).length} пользователей</span>
+            <span className="badge-muted">{users.length} пользователей</span>
           </div>
           <div className="dark-card-body" style={{ padding: 0 }}>
-            {(Array.isArray(users) ? users : []).length === 0 ? (
+            {users.length === 0 ? (
               <div style={{ padding: 32, textAlign: 'center', color: 'var(--muted)' }}>
                 Нет доступных пользователей
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {(Array.isArray(users) ? users : []).map((user, index) => (
+                {users.map((user, index) => (
                   <button
                     key={user.id}
                     onClick={() => handleUserSelect(user.id)}

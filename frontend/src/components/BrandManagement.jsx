@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import brandService from '../api/brandService';
 import modelService from '../api/modelService';
+import { theme } from '../theme';
 
 const Modal = ({ show, title, onClose, onSave, loading, children }) => {
   if (!show) return null;
@@ -43,23 +44,18 @@ const BrandManagement = () => {
   const loadBrands = async () => {
     try {
       setLoading(true);
-      const data = await brandService.getAll();
-      setBrands(Array.isArray(data) ? data : []);
+      setBrands(await brandService.getAll());
       setError(null);
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }
   };
 
   const loadModels = async () => {
-    try {
-      const data = await modelService.getAll();
-      setModels(Array.isArray(data) ? data : []);
-    }
+    try { setModels(await modelService.getAll()); }
     catch (err) { console.error(err); }
   };
 
-  const getModelsForBrand = (bid) =>
-    (Array.isArray(models) ? models : []).filter(m => m.brand && m.brand.id === bid);
+  const getModelsForBrand = (bid) => models.filter(m => m.brand && m.brand.id === bid);
 
   const handleSaveBrand = async () => {
     if (!brandName.trim()) { setError('Название не может быть пустым'); return; }
@@ -105,11 +101,11 @@ const BrandManagement = () => {
     finally { setLoading(false); }
   };
 
-  const safeBrands = Array.isArray(brands) ? brands : [];
   const brandModels = selectedBrand ? getModelsForBrand(selectedBrand.id) : [];
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Бренды <span>&amp; Модели</span></h1>
@@ -129,9 +125,9 @@ const BrandManagement = () => {
             </button>
           </div>
           <div>
-            {loading && safeBrands.length === 0 ? (
+            {loading && brands.length === 0 ? (
               <div className="dark-spinner" style={{ padding: 40 }}><div className="spinner-ring" /></div>
-            ) : safeBrands.length === 0 ? (
+            ) : brands.length === 0 ? (
               <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)', fontSize: 13 }}>Нет брендов</div>
             ) : (
               <table className="dark-table">
@@ -144,7 +140,7 @@ const BrandManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {safeBrands.map(b => (
+                  {brands.map(b => (
                     <tr
                       key={b.id}
                       className={`row-clickable${selectedBrand?.id === b.id ? ' row-active' : ''}`}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import featureService from '../api/featureService';
+import { theme } from '../theme';
 
 const Modal = ({ show, title, onClose, onSave, loading, children }) => {
   if (!show) return null;
@@ -37,8 +38,7 @@ const FeatureManagement = () => {
   const loadFeatures = async () => {
     try {
       setLoading(true);
-      const data = await featureService.getAll();
-      setFeatures(Array.isArray(data) ? data : []);
+      setFeatures(await featureService.getAll());
       setError(null);
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }
@@ -67,12 +67,11 @@ const FeatureManagement = () => {
     finally { setLoading(false); }
   };
 
-  const filtered = (Array.isArray(features) ? features : []).filter(
-    f => (f?.name || '').toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = features.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <>
+      <style>{theme}</style>
 
       <div className="page-header fade-in">
         <h1 className="page-title">Харак<span>теристики</span></h1>
