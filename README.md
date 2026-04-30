@@ -179,6 +179,22 @@ DDL_AUTO=update
 SHOW_SQL=true
 ```
 
+## CI/CD (GitHub Actions + Railway)
+
+Добавлен workflow `/.github/workflows/ci-cd.yml`, который выполняет:
+- сборку и тесты (`mvn verify`);
+- деплой в Railway;
+- healthcheck после деплоя.
+
+### Необходимые GitHub Secrets
+
+В репозитории нужно создать:
+- `RAILWAY_TOKEN` - Project Token из Railway;
+- `RAILWAY_SERVICE` - идентификатор/имя сервиса Railway для деплоя;
+- `APP_HEALTHCHECK_URL` - публичный URL healthcheck, например `https://<your-domain>/actuator/health`.
+
+Workflow запускается автоматически при push в `main` и вручную через `workflow_dispatch`.
+
 ## Технологии
 
 ### Backend
