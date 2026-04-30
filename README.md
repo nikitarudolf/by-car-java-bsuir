@@ -8,7 +8,6 @@
 - **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
 - **Deployment**: Docker + Docker Compose
 
-## Быстрый старт с Docker
 
 ### Требования
 
